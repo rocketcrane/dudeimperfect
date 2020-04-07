@@ -43,7 +43,9 @@ function hit(xt, yt1, yt2){
 }
 
 // animation
-function yvel(vv,t) return vv - g*t;
+function yvel(vv,t) {
+  return vv - g*t;
+}
 
 function setup() {
   x = 10;
@@ -57,10 +59,16 @@ function setup() {
   tx = xt(x,vx);
   ty1 = yt1(y,vy);
   ty2 = yt2(y,vy);
+  createCanvas(500, 500); //size of program window on browswer
+  background(0);
+  frameRate(30);
+  circle(50, 380, 20);
+  triangle(40,400,50,390,60,400);
+  rect(400,250,40,3);
 }
 
 
 function draw() {
-  if(hit(tx, ty1, ty2) == 1)
-  else
+  //if(hit(tx, ty1, ty2) == 1)
+  //else
 }
