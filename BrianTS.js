@@ -3,15 +3,15 @@
  * Trickshot heaven JS code / projectile motion
  */
 
-//game variable
-let x;
-let y;
-let ORIGIN = [50, 380];
-let scaleToScreen = 10;
-let count = 0;
-let bucket = 1;
+//game variables
+let x; // the distance of the target with respect to the launching point
+let y; // the height of the target with respect to the launching point
+let ORIGIN = [50, 380]; // for calibrating launching and target positions on screen
+let scaleToScreen = 10; // for scaling the throw on screen
+let count = 0; // increases by 1/30 as the time variable for animation on screen
+let bucket; // the moment the shot is made
 
-//user inupt
+//user inupts
 let a; // launch angle in degrees
 let f; // force in N
 
@@ -24,11 +24,14 @@ let vx, vy; // initial horizontal velocity = cos0 * v, vertical velocity = sin0 
 let tx, ty1, ty2; // times to reach target based on horizontal & vertical velocities
 let g = -9.8; // gravity acceleation: -9.8 m/s/s. Negative because its going down
 
-// paramters & return values all in units meters & seconds
+// paramters & return values are all in units meters & seconds
+
+// time for the object to reach the target distance
 // xdis = xvel * xtime --> xtime = xdis/xvel
 function xt(xd,xv) {
   return xd/xv;
 }
+// time for the object to reach the target height
 // ydis = yvel*ytime + g*ytime*ytime/2 
 // --> g/2*ytime*ytime + yvel*ytime - ydis = 0
 // --> ytime = [-yvel ± √(yvel*yvel - 4*(g/2)*(-ydis)]/(2*(g/2))
@@ -41,7 +44,7 @@ function yt2(yd,yv) {
   return eval;
 }
 
-function hit(xt, yt1, yt2){
+function make(xt, yt1, yt2){ // the shot is made when tx matches with 1 of the tys and return 1 
   if((xt == yt1)||(xt == yt2)) {
     bucket = xt;
     return 1;
@@ -66,6 +69,10 @@ function setup() {
   tx = xt(x,vx); // 24/12 = 2 s
   ty1 = yt1(y,vy); // [-16 + sqrt(16*16 - 4(1/2)(-9.8)(-12.4))]/(2(1/2)(-9.8)) = 1.27 s
   ty2 = yt2(y,vy); // [-16 - sqrt(16*16 - 4(1/2)(-9.8)(-12.4))]/(2(1/2)(-9.8)) = 2 s
+  if(make(tx,ty1,ty2)){
+    bucket = tx;
+  }
+  
   
   createCanvas(500, 500); //size of program window on browswer
   background(0);
@@ -87,7 +94,7 @@ function setup() {
 function draw() {
   circle(ORIGIN[0], ORIGIN[1], 20);
   if(count == bucket){
-    if(hit(tx, ty1, ty2) == 1){
+    if(make(tx, ty1, ty2) == 1){
       background('rgb(0,255,0)');
     }else{
       background('red');
