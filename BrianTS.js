@@ -62,6 +62,8 @@ function setup() {
   createCanvas(500, 500); //size of program window on browswer
   background(0);
   frameRate(30);
+  textAlign(CENTER,TOP);
+  fill(255);
   circle(50, 380, 20);
   triangle(40,400,50,390,60,400);
   rect(400,250,40,3);
@@ -69,6 +71,12 @@ function setup() {
 
 
 function draw() {
+  textSize(15);
+  text("The hoop is "+str(x)+" meters away and "+str(y)+" meters high", width/2, 20);
+  textSize(20);
+  text("Launch Angle: "+str(a)+"°", width/2, 50); 
+  text("Launch Force: "+str(f)+" N", width/2, 80);
+  
   //if(hit(tx, ty1, ty2) == 1)
   //else
 }
