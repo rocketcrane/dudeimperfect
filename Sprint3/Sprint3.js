@@ -91,7 +91,7 @@ function draw() {
   drawVerticalDist(width/5, floor, floor - ballHeight);
 
   // Hoop
-  imgBasketballHoop.resize(0, hoopSize);
+  imgBasketballHoop.resize(hoopSize, hoopSize);
   drawImage(imgBasketballHoop, width - width/8, hoopHeight);
   drawVerticalDist(width - width/4, floor, floor - rimHeight);
 
