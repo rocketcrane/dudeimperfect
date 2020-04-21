@@ -12,17 +12,13 @@ class World {
   }
 
   // make all the calculations for the question except make()
-  calc(x, y, angle, force) {
-    this.proj.veloc_proj = this.proj.force*this.time_force_applied/this.proj.mass; // initial projectile velocity = 20 m/s. f = ma --> f*tfa = m*v
-    var radian = radians(angle); // launch angle in radians = PI/3
-    this.proj.veloc_hor = Math.cos(radian)*this.proj.veloc_proj; // horizontal velocity, cos0 * v = 10
-    this.proj.veloc_ver = Math.sin(radian)*this.proj.veloc_proj; // vertical velocity, sin0 * v = 10*sqrt(3)
+  elapsedTime() {
     this.time_hor = this.x_time(x, this.proj.veloc_hor); // 20/10 = 2s
     this.time_ver = this.y_time(y, this.proj.veloc_ver); // [-10*sqrt(3) - sqrt(10*sqrt(3)^2 - 4(1/2)(-9.8)(-15))]/(2(1/2)(-9.8)) = 2 s
   }
 
   // the shot is made (-> 1) when time to reach target distance matches time to reach target height
-  make(xt, yt) { 
+  willMakeShot(xt, yt) { 
     bucket = xt;
     // score if the difference between 2 times is <0.05 and >0 
     if ((((xt-yt)<0.05)&&((xt-yt)>=0))||(((yt-xt)<0.05)&&((yt-xt)>=0))) { 

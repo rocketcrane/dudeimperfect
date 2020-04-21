@@ -3,23 +3,47 @@ class Ball {
     this.img = img;
     this.x = x;
     this.y = y;
+    this.diameter = diameter;
     this.radius = diameter/2;
-    this.img.resize(diameter, diameter);
     this.mass = mass;
     this.force = force;
     this.angle = angle;
     // initial projectile velocity, horizontal velocity = cos0 * v, vertical velocity = sin0 * v
-    this.veloc_proj = 0;
-    this.veloc_hor = 0;
-    this.veloc_ver = 0;
+    var radian = radians(angle);
+    this.time_force_applied = 1;
+    this.veloc_proj = this.force*this.time_force_applied/this.mass;
+    this.vel = createVector(cos(radian)*this.veloc_proj, sin(radian)*this.veloc_proj);
   }
-  
+
   move() {
-    this.x += this.veloc_hor * (5/frameRate());
-    this.y -= this.veloc_ver * (5/frameRate());
+    this.x += canonicalToActual(this.vel.x/fps);
+    this.y += canonicalToActual(this.vel.y/fps);
+    this.accelerate(0, -9.8/fps);
+    this.bounce();
+  }
+
+  accelerate(ddx, ddy) {
+    this.vel.x += ddx;
+    this.vel.y += ddy;
+  }
+
+  bounce() {
+    // Floor
+    if (this.y <= this.diameter) {
+      this.vel.y *= -1;
+    }
+
+    // Backboard
+    var isAtBackboardX = this.x - this.diameter >= width - width/8;
+    var isAtBackboardY = this.y >= rimHeight && this.y <= hoopHeight;
+    if (this.vel.x > 0 && isAtBackboardX && isAtBackboardY) {
+      this.vel.x *= -1;
+    }
   }
 
   display() {
-    image(this.img, this.x, this.y);
+    imageMode(CENTER);
+    drawImage(this.img, this.x, this.y);
+    imageMode(CORNER);
   }
 }

@@ -4,17 +4,15 @@
  */
 
 // variables
-let ORIGIN, scale_to_screen; // calibrate scale game on screen
-let frameSinceStart, show, sec, bucket; // time keeping
-let wallpaper;
 let world;
 let unit; // String representing unit of length
 let scale; // how many pixels long one unit is
 let floor, playerHeight, ballSize, ballHeight, hoopSize, hoopHeight, rimHeight; // various lengths
+let isMoving = false;
+let fps;
 
 function preload() {
   imgBasketball = loadImage('assets/basketball.png');
-  imgBasketball2 = loadImage('assets/basketball.png');
   imgBasketballPlayer = loadImage('assets/person_basketball.png');
   imgBasketballHoop = loadImage('assets/basketball_hoop.png');
 }
@@ -24,109 +22,102 @@ function setup() {
   maxWidth = window.screen.availWidth - (window.outerWidth - window.innerWidth);
   maxHeight = window.screen.availHeight - (window.outerHeight - window.innerHeight);
   canvas = createCanvas(maxWidth, maxHeight);
-  wallpaper = color(255, 255, 255);
-  colorMode(RGB, 255);
-  background(wallpaper); //black
   frameSinceStart = 0;
-  frameRate(60);
+  fps = 60;
+  frameRate(fps);
   imageMode(CENTER);
-  
+
   // Scale and lengths
   unit = "ft";
+  scale = ((height/3.213 + height/2.5) - (height/3.213)/1.7)/10;
   floor = height - height/8;
-  hoopSize = height/3.213;
-  hoopHeight = hoopSize + height/2.5;
-  rimHeight = hoopHeight - (height/3.213)/1.7;
-  useAsHeightReference(rimHeight, 10);
-  //playerHeight = height/2.128;
-  playerHeight = canonicalToActual(7);
-  //ballHeight = playerHeight + playerHeight/10;
+  playerHeight = canonicalToActual(6);
   ballSize = canonicalToActual(1);
-  ballHeight = playerHeight/1.15 + ballSize;
-
-  // time keeping
-  sec = 0; // increases by 1/30 every 1/30s
-  show = sec; // for showing integer 'sec', begins count from 0
-  bucket = 0; // the moment the shot is made or reached the hoop distance
+  ballHeight = playerHeight + canonicalToActual(0.1);
+  hoopSize = canonicalToActual(5);
+  hoopHeight = hoopSize + canonicalToActual(8);
+  rimHeight = hoopHeight - hoopSize/1.75;
 
   // initialize ball
-  var diameter = height/10;
-  var force = null;
-  var angle = 60;
-  var ball = new Ball(imgBasketball2, 0, 0, diameter, 1, force, angle);
+  var force = 0;
+  var angle = 0;
+  var ball = new Ball(imgBasketball, width/8, ballHeight, ballSize, 1, force, angle);
   // initialize world
   var x = 20;
   var y = 15;
   world = new World(x, y, -9.8, 1, ball);
 
-  // for positioning, scaling screen presentation
-  ORIGIN = [width/8, floor];
-  scale_to_screen = 20; 
+  // input
   forceInput = createInput();
-  forceInput.position(10, 80);
-  forceInput.size(30);
-  button = createButton('Set my power');
-  button.position(forceInput.x+forceInput.width+5, 80);
-  button.mousePressed(newForce);
+  forceInput.size(100, 50);
+  forceInput.style('font-size', '24px');
+  angleInput = createInput();
+  angleInput.size(100, 50);
+  angleInput.style('font-size', '24px');
+  enter = createButton('Enter');
+  enter.size(100, 50);
+  enter.mousePressed(newAttempt);
+  reset = createButton('Reset');
+  reset.size(100, 50);
+  reset.mousePressed(resetAttempt);
 }
 
 function draw() {
-  colorMode(RGB, 255);
-  background(wallpaper); // repaint
-  fill(255); // everything is white lined
+  fill(0);
+  background(255);
+  
+  // input
+  forceInput.position(width/12, height/8);
+  angleInput.position(width/12, height/4);
+  enter.position(width/6, height/4 - height/12);
+  reset.position(enter.x + width/16, enter.y);
+  textSize(24);
+  textAlign(LEFT);
+  text("Force:", width/12, height/8 - height/32);
+  text("Angle:", width/12, height/4 - height/32);
 
   // Floor
   fill(0);
+  strokeWeight(1);
   line(0, floor, width, floor);
+  strokeWeight(0);
+  drawHorizontalDist(floor + 20, width/8, width - width/8);
 
   // Basketball + player
   imgBasketball.resize(0, ballSize);
   imgBasketballPlayer.resize(0, playerHeight);
   drawImage(imgBasketballPlayer, width/8, playerHeight);
-  drawImage(imgBasketball, width/8, ballHeight);
-  drawDistance(width/5, floor, floor - ballHeight);
+  world.proj.display();
+  drawVerticalDist(width/5, floor, floor - ballHeight);
 
   // Hoop
   imgBasketballHoop.resize(0, hoopSize);
   drawImage(imgBasketballHoop, width - width/8, hoopHeight);
-  drawDistance(width - width/4, floor, floor - rimHeight);
-  
-  drawDistance(width/2, floor, floor - scale); // DEBUG USE: how long is one unit?
+  drawVerticalDist(width - width/4, floor, floor - rimHeight);
 
-  gameDisplay();
+  displayVectors();
+  if (isMoving) {
+    world.proj.move();
+  }
+
+  textAlign(CENTER);
+  textSize(60);
+  text("Three-pointer", width/2, height/16);
 }
 
-function drawImage(img, x, heightInPixels) {
-  imageMode(CORNER);
-  image(img, x - img.width/2, floor - heightInPixels);
-  imageMode(CENTER);
+function newAttempt() {
+  if (isMoving) {
+    return;
+  }
+  world.proj = new Ball(imgBasketball, width/8, ballHeight, ballSize, 1, forceInput.value(), angleInput.value());
+  isMoving = true;
 }
 
-// Draws a vertical height arrow with length + units label
-function drawDistance(x, y1, y2) {
-  line(x - 5, y1, x + 5, y1);
-  line(x, y1, x, y2);
-  line(x - 5, y2, x + 5, y2);
-  textSize(24);
-  textAlign(LEFT, CENTER);
-  text(getLength(y1, y2) + " " + unit, x + 20, max(y1, y2) - abs(y2 - y1)/2);
-}
-
-function getLength(y1, y2) {
-  return round(abs(y2 - y1)/scale);
-}
-
-function useAsHeightReference(heightInPixels, canonicalHeight) {
-  scale = heightInPixels / canonicalHeight;
-}
-
-function canonicalToActual(canonicalHeight) {
-  return canonicalHeight * scale;
-}
-
-function newForce() {
-  world.proj.force = forceInput.value();
-  frameSinceStart = frameCount;
+function resetAttempt() {
+  if (isMoving) {
+    isMoving = false;
+  }
+  world.proj = new Ball(imgBasketball, width/8, ballHeight, ballSize, 1, 0, 0);
 }
 
 /*
@@ -143,8 +134,8 @@ function windowResized() {
 }
 
 function keyPressed() {
-  if (key === 'f') {
-    var fs = fullscreen();
-    fullscreen(!fs);
-  }
+  //if (key === 'f') {
+  //  var fs = fullscreen();
+  //  fullscreen(!fs);
+  //}
 }
