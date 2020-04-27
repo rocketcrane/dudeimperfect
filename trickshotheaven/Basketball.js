@@ -19,9 +19,6 @@ function updateBasketball() {
   drawImage(imgBasketballHoop, width - width/8, HOOPHEIGHT);
   drawVerticalDist(width - width/4, FLOOR, FLOOR - RIMHEIGHT);
   
-  //check for win
-  BALL.winCheck(width - width/8 + 100, FLOOR - HOOPHEIGHT, 10, 10);
-  
   // win condition
   if(WIN) {
     drawImage(imgBasketballPlayerShoot, width/8, PLAYERHEIGHT);
@@ -45,4 +42,5 @@ function resetAttempt() {
   }
   SHOOTINGTIMER = 0;
   WORLD.proj = new Ball(imgBasketball, width/8, BALLHEIGHT, BALLSIZE, 1, 0, 0);
+  WIN = false;
 }

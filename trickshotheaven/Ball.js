@@ -19,7 +19,7 @@ class Ball {
     this.accelerate(0, -9.8/FPS);
     this.x += canonicalToActual(this.vel.x/FPS);
     this.y += canonicalToActual(this.vel.y/FPS);
-    this.bounce();
+    this.update();
   }
 
   accelerate(ddx, ddy) {
@@ -27,7 +27,7 @@ class Ball {
     this.vel.y += ddy;
   }
 
-  bounce() {
+  update() {
     // Floor
     if (this.y <= this.diameter) {
       this.vel.y *= -1;
@@ -38,6 +38,22 @@ class Ball {
     var isAtBackboardY = this.y >= RIMHEIGHT && this.y <= HOOPHEIGHT;
     if (this.vel.x > 0 && isAtBackboardX && isAtBackboardY) {
       this.vel.x *= -1;
+      WIN = true;
+    }
+    
+    let winX = width - width/8 + HOOPSIZE/4;
+    let winXLen = HOOPSIZE/2.1;
+    let winY = FLOOR - HOOPHEIGHT*0.7;
+    let winYLen = HOOPHEIGHT/10;
+    if (DEBUG) {
+      fill(0);
+      strokeWeight(2);
+      line(winX-winXLen, winY-winYLen, winX, winY);
+    }
+    var isAtWinX = this.x - this.diameter >= winX - winXLen && this.x - this.diameter <= winX;
+    var isAtWinY = this.y >= winY - winYLen && this.y <= winY;
+    if (isAtWinX && isAtWinY) {
+      WIN = true;
     }
   }
 
@@ -49,11 +65,8 @@ class Ball {
   
   //--------------------------------------
   // check if win condition has been met
+  // for debug mode, show line for goal
   winCheck(x, y, xlen, ylen) {
-    if (this.x >= x && this.x <= x - xlen) {
-      WIN = true;
-      if(this.y >= y && this.y <= y - ylen) {
-      }
-    }
+
   }
 }
