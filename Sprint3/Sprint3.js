@@ -21,7 +21,7 @@ function setup() {
   // Settings
   maxWidth = window.screen.availWidth - (window.outerWidth - window.innerWidth);
   maxHeight = window.screen.availHeight - (window.outerHeight - window.innerHeight);
-  canvas = createCanvas(maxWidth, maxHeight);
+  canvas = createCanvas(maxWidth, maxHeight); // set total pixels
   frameSinceStart = 0;
   fps = 60;
   frameRate(fps);
@@ -29,9 +29,9 @@ function setup() {
 
   // Scale and lengths
   unit = "ft";
-  scale = ((height/3.213 + height/2.5) - (height/3.213)/1.7)/10;
+  scale = ((height/3.213 + height/2.5) - (height/3.213)/1.7)/10; // what is this?
   floor = height - height/8;
-  playerHeight = canonicalToActual(6);
+  playerHeight = canonicalToActual(6); //what is this?
   ballSize = canonicalToActual(1);
   ballHeight = playerHeight + canonicalToActual(0.1);
   hoopSize = canonicalToActual(5);
@@ -39,11 +39,11 @@ function setup() {
   rimHeight = hoopHeight - hoopSize/1.75;
 
   // initialize ball
-  var force = 0;
-  var angle = 0;
+  var force = 20;
+  var angle = 60;
   var ball = new Ball(imgBasketball, width/8, ballHeight, ballSize, 1, force, angle);
   // initialize world
-  var x = 20;
+  var x = 20;  //20 m != 26 ft
   var y = 15;
   world = new World(x, y, -9.8, 1, ball);
 
@@ -65,7 +65,7 @@ function setup() {
 function draw() {
   fill(0);
   background(255);
-  
+
   // input
   forceInput.position(width/12, height/8);
   angleInput.position(width/12, height/4);
@@ -79,16 +79,16 @@ function draw() {
   // Floor
   fill(0);
   strokeWeight(1);
-  line(0, floor, width, floor);
+  line(0, floor, width, floor); 
   strokeWeight(0);
-  drawHorizontalDist(floor + 20, width/8, width - width/8);
+  drawHorizontalDist(floor + 20, width/8, width - width/8); //what is this?
 
   // Basketball + player
-  imgBasketball.resize(0, ballSize);
+  imgBasketball.resize(ballSize, 0);
   imgBasketballPlayer.resize(0, playerHeight);
   drawImage(imgBasketballPlayer, width/8, playerHeight);
   world.proj.display();
-  drawVerticalDist(width/5, floor, floor - ballHeight);
+  drawVerticalDist(width/5, floor, floor - ballHeight); //what is this?
 
   // Hoop
   imgBasketballHoop.resize(hoopSize, hoopSize);
