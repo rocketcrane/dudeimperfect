@@ -15,6 +15,7 @@ let DEBUG = true; // debug mode
 // GLOBAL VARIABLES
 let WORLD;
 let BALL;
+let WIN = false;
 let UNIT = 'm'; // String representing unit of length
 let SCALE; // how many pixels long one unit is
 let FLOOR, PLAYERHEIGHT, BALLSIZE, BALLHEIGHT, HOOPSIZE, HOOPHEIGHT, RIMHEIGHT; // various lengths

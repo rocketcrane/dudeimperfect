@@ -46,4 +46,14 @@ class Ball {
     drawImage(this.img, this.x, this.y);
     imageMode(CORNER);
   }
+  
+  //--------------------------------------
+  // check if win condition has been met
+  winCheck(x, y, xlen, ylen) {
+    if (this.x >= x && this.x <= x - xlen) {
+      WIN = true;
+      if(this.y >= y && this.y <= y - ylen) {
+      }
+    }
+  }
 }
