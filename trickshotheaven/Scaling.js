@@ -33,6 +33,7 @@ function rescale() {
   imgBasketballPlayerShoot.resize(playerWidth, PLAYERHEIGHT);
   imgBasketballPlayerStill.resize(playerWidth, PLAYERHEIGHT);
   imgBasketballHoop.resize(HOOPSIZE, HOOPSIZE);
+  imgBasketballBackground.resize(width, FLOOR);
   
   //FIX NEEDED FOR IMAGES BLURRING AS THEY RESIZE
 }

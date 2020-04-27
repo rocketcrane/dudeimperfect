@@ -30,6 +30,7 @@ function preload() {
   imgBasketballPlayerShoot = loadImage('assets/person_basketball_shoot.png');
   imgBasketballPlayerStill = loadImage('assets/person_basketball_still.png');
   imgBasketballHoop = loadImage('assets/basketball_hoop.png');
+  imgBasketballBackground = loadImage('assets/gamebasketball_background.jpg');
 }
 
 function setup() {
@@ -54,15 +55,15 @@ function setup() {
 
 function draw() {
   // DISPLAY UPDATES
-  fill(0);
-  background(255);
+
   rescale();
-  
-  // UPDATE ALL WORLD OBJECTS
-  updateObjects();
+  fill(0);
   
   // update Basketball + player
   updateBasketball();
+  
+  // UPDATE ALL WORLD OBJECTS
+  updateObjects();
   
   // DEBUG MODE
   if (DEBUG) {

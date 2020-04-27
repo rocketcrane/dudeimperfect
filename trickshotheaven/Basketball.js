@@ -1,6 +1,7 @@
 //--------------------------------------
 // updates basketball
 function updateBasketball() {
+  drawImage(imgBasketballBackground, width/2, FLOOR);
   if (ISMOVING) {
     if (SHOOTINGTIMER <= 60) {
       SHOOTINGTIMER++;
