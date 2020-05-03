@@ -17,16 +17,19 @@ function debugBorders() {
 
 function debugInfo() {
   textSize(24);
-  var canonicalX = nf(actualToCanonical(BASKETBALL_GAME.proj.x, HSCALE), 0, 2); // shouldn't it be canonicalX?
-  var canonicalY = nf(actualToCanonical(BASKETBALL_GAME.proj.y, VSCALE), 0, 2);
+  var trueX = nf(actualToCanonical(BASKETBALL_GAME.proj.x, HSCALE), 0, 2);
+  var trueY = nf(actualToCanonical(BASKETBALL_GAME.proj.y, VSCALE), 0, 2);
+  var centX = nf(actualToCanonical(BASKETBALL_GAME.proj.x - WALL, HSCALE), 0, 2);
+  var centY = nf(actualToCanonical(BASKETBALL_GAME.proj.y, VSCALE) - 1.9, 0, 2);
   var canonicalVelX = nf(actualToCanonical(BASKETBALL_GAME.proj.vel.x, HSCALE), 0, 2);
   var canonicalVelY = nf(actualToCanonical(BASKETBALL_GAME.proj.vel.y, VSCALE), 0, 2);
   let TSCALE = Math.sqrt(HSCALE*HSCALE+VSCALE*VSCALE);
   var canonicalVel = nf(actualToCanonical(BASKETBALL_GAME.proj.vel.mag(), TSCALE), 0, 2);
   fill(255, 0, 90);
-  text("(" + canonicalX + " " + UNIT + ", " + canonicalY + " " + UNIT + ")", width/2, height/2 - 50);
-  text(canonicalVelX + ", " + canonicalVelY, width/2, height/2);
-  text(canonicalVel, width/2, height/2 + 50);
+  text("TRUE XY: " + trueX + " " + UNIT + ", " + trueY + " " + UNIT , width/2, height/2 - 50);
+  text("CENT XY: " + centX + " " + UNIT + ", " + centY + " " + UNIT , width/2, height/2);
+  text("VEL: " + canonicalVelX + " m/s H, " + canonicalVelY + " m/s V", width/2, height/2 + 50);
+  text(canonicalVel + " m/s Tot", width/2, height/2 + 100);
   fill(0);
   strokeWeight(1);
   line(0, FLOOR, width, FLOOR);
@@ -34,24 +37,23 @@ function debugInfo() {
 }
 
 //--------------------------------------
-// draws a properly aligned rectangle; used to show the rim and the backboard
+// draws rectangle; used to show the rim and the backboard
 function drawRect(x1, y1, x2, y2) {
   stroke(255, 0, 90);
   strokeWeight(5);
-  line(alignX(x1), alignY(y1), alignX(x2), alignY(y1));
-  line(alignX(x1), alignY(y2), alignX(x2), alignY(y2));
-  line(alignX(x1), alignY(y1), alignX(x1), alignY(y2));
-  line(alignX(x2), alignY(y1), alignX(x2), alignY(y2));
-  strokeWeight(0);
+  rectMode(CORNERS);
+  noFill();
+  rect(x1, y1, x2, y2);
   stroke(0);
+  strokeWeight(0);
 }
 
 //--------------------------------------
 // draws a properly aligned point; used to locate the projected object
-function drawPoint(x, y, thickness) {
-  stroke(255, 0, 0);
+function drawPoint(x, y, thickness){
+  stroke(255, 0, 90);
   strokeWeight(thickness);
-  point(alignX(x), alignY(y));
+  point(x,y);
   strokeWeight(0);
   stroke(0);
 }

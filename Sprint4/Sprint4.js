@@ -65,17 +65,18 @@ function draw() {
   // background(255);
 
   // GAME
-  if (IS_WIN) {
-    //background(0, 255, 0);
-    textSize(60);
-    text("YOU WIN", width/2, height/2);
-  }
   BASKETBALL_GAME.update();
   displayText();
 
   // DEBUG MODE
   if (DEBUG) {
     runDebug();
+  }
+  if (IS_WIN) {
+    //background(0, 255, 0);
+    textSize(60);
+    fill(200,255,100);
+    text("YOU WIN", width/2, height/2);
   }
 }
 
@@ -89,21 +90,28 @@ function displayText() {
   if (level == 1) {
     textAlign(CENTER);
     textSize(60);
-    text("Level " + level + ": Three-pointer", width/2, height/16);
+    text("Level " + level + ": Free Throw", width/2, height/16);
     textSize(24);
     text("Solution: 11 N, 60°", width/4, height/3);
   }
   if (level == 2) {
     textAlign(CENTER);
     textSize(60);
-    text("Level " + level + ": Half-court", width/2, height/16);
+    text("Level " + level + ": Three Pointer", width/2, height/16);
     textSize(24);
     text("Solution: 15.3 N, 60°", width/4, height/3);
   }
   if (level == 3) {
     textAlign(CENTER);
     textSize(60);
-    text("Level " + level + ": Full-court", width/2, height/16);
+    text("Level " + level + ": Half Court", width/2, height/16);
+    textSize(24);
+    text("Solution: 18.65 N, 60°", width/4, height/3);
+  }
+  if (level == 4) {
+    textAlign(CENTER);
+    textSize(60);
+    text("Level " + level + ": Full Court", width/2, height/16);
     textSize(24);
     text("Solution: 18.65 N, 60°", width/4, height/3);
   }
@@ -117,13 +125,15 @@ function nextLevel() {
 
 function basketballNextLevel() {
   if (!IS_MOVING) {
-    level = level % 3 + 1;
+    level = level % 4 + 1;
     if (level == 1) {
       BASKETBALL_GAME = new BasketballGame(-9.8, 1, 5);
     } else if (level == 2) {
-      BASKETBALL_GAME = new BasketballGame(-9.8, 1, 8);
+      BASKETBALL_GAME = new BasketballGame(-9.8, 1, 10);
     } else if (level == 3) {
       BASKETBALL_GAME = new BasketballGame(-9.8, 1, 15);
+    } else {
+      BASKETBALL_GAME = new BasketballGame(-9.8, 1, 30);
     }
   }
 }

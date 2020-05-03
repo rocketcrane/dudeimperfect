@@ -1,7 +1,9 @@
 class Projectile {
   constructor(img, x, y, mass, force, angle) {
     this.img = img;
-    this.x = x;
+    this.trueX = x;
+    this.trueY = FLOOR - y;
+    this.x = x - WALL;
     this.y = y;
     this.mass = mass;
     this.force = force;
@@ -11,6 +13,7 @@ class Projectile {
     this.time_force_applied = 1;
     this.veloc_proj = this.force*this.time_force_applied/this.mass;
     this.vel = createVector(cos(radian)*this.veloc_proj, sin(radian)*this.veloc_proj);
+    
   }
 
   move() {
@@ -30,11 +33,10 @@ class Projectile {
 
   display() {
     if (DEBUG) {
-      drawPoint(this.trueX, this.trueY, this.diameter);
+      drawPoint(this.trueX, this.trueY, this.diameter); // there has to be a better way for this
+      console.log("hi");
     } else {
-      imageMode(CENTER);
-      drawImageOnFloor(this.img, this.x, this.y);
-      imageMode(CORNER);
+      drawImageOnFloor(this.img, this.trueX, this.y + this.radius);
     }
   }
 }
