@@ -15,6 +15,7 @@ let IS_WIN = false;
 let FPS = 80;
 let CANVAS;
 let NEXT_LEVEL_BUTTON, DEBUG_BUTTON; // buttons
+let hitNext = false;
 let game = 'basketball';
 let level = 1;
 
@@ -74,9 +75,13 @@ function draw() {
   }
   if (IS_WIN) {
     //background(0, 255, 0);
+    
+    fill(255,255,255);
     textSize(60);
-    fill(200,255,100);
-    text("YOU WIN", width/2, height/2);
+    text("WIN", width/2, height/2);
+    textSize(30);
+    text("you may now hit 'reset' and move onto level "+(level%4+1), width/2, 3/4*height);
+    hitNext = true;
   }
 }
 
@@ -118,13 +123,14 @@ function displayText() {
 }
 
 function nextLevel() {
-  if (game == 'basketball') {
+  if (game == 'basketball' && hitNext) {
     basketballNextLevel();
   }
 }
 
 function basketballNextLevel() {
   if (!IS_MOVING) {
+    hitNext = false;
     level = level % 4 + 1;
     if (level == 1) {
       BASKETBALL_GAME = new BasketballGame(-9.8, 1, 5);
