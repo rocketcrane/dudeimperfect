@@ -92,28 +92,28 @@ function displayText() {
     textSize(60);
     text("Level " + level + ": Free Throw", width/2, height/16);
     textSize(24);
-    text("Solution: 11 N, 60°", width/4, height/3);
+    text("Solution: 8 N, 60°", width/4, height/3);
   }
   if (level == 2) {
     textAlign(CENTER);
     textSize(60);
     text("Level " + level + ": Three Pointer", width/2, height/16);
     textSize(24);
-    text("Solution: 15.3 N, 60°", width/4, height/3);
+    text("Solution: 11 N, 60°", width/4, height/3);
   }
   if (level == 3) {
     textAlign(CENTER);
     textSize(60);
     text("Level " + level + ": Half Court", width/2, height/16);
     textSize(24);
-    text("Solution: 18.65 N, 60°", width/4, height/3);
+    text("Solution: 13 N, 60°", width/4, height/3);
   }
   if (level == 4) {
     textAlign(CENTER);
     textSize(60);
     text("Level " + level + ": Full Court", width/2, height/16);
     textSize(24);
-    text("Solution: 18.65 N, 60°", width/4, height/3);
+    text("Solution: 18.5 N, 60°", width/4, height/3);
   }
 }
 

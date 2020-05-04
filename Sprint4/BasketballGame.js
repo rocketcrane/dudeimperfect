@@ -43,12 +43,12 @@ class BasketballGame extends Game {
     let y1 = 3/8 * height; // FLOOR - HOOPHEIGHT
     let y2 = 1/2 * height;  // FLOOR - RIMHEIGHT
     let isAtBackboardX = this.proj.trueX >= x1 && this.proj.trueX <= x2;
-    let isAtBackboardY = this.proj.trueY >= y2 && this.proj.trueY <= y1;
-    if (DEBUG) {
-      drawRect(x1, y1, x2, y2);
-    }
+    let isAtBackboardY = this.proj.trueY >= y1 && this.proj.trueY <= y2;
     if (this.proj.vel.x > 0 && isAtBackboardX && isAtBackboardY) {
       this.proj.vel.x *= -1;
+    }
+    if (DEBUG) {
+      drawRect(x1, y1, x2, y2);
     }
   }
 
