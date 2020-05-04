@@ -1,6 +1,5 @@
-class BasketballGame extends Game {
-  constructor(grav, time_force_applied, canonicalDist) { // the ball mass should be constant
-    super(grav, time_force_applied);
+class BasketballGame{
+  constructor(canonicalDist) { // the ball mass should be constant
     this.canonicalDist = canonicalDist;
     this.canonicalFullCourt = 41;
     this.percentDist = this.canonicalDist / this.canonicalFullCourt; // percentage of full court length (width of background) the level represents
@@ -56,7 +55,7 @@ class BasketballGame extends Game {
     let x1 = 18/22 * width; //this.HOOPLOC + this.HOOPSIZE/6;
     let x2 = 19/22 * width; //this.HOOPLOC + this.HOOPSIZE/2;
     let y1 = 1/2 * height; // FLOOR - HOOPHEIGHT
-    let y2 = 17/32 * height;  // FLOOR - RIMHEIGHT
+    let y2 = 33/64 * height;  // FLOOR - RIMHEIGHT
     if (DEBUG) {
       //stroke(255, 200, 100);
       drawRect(x1, y1, x2, y2);
@@ -91,7 +90,7 @@ class BasketballGame extends Game {
     this.RIMHEIGHT = canonicalToActual(3, VSCALE); //this.HOOPHEIGHT - this.HOOPSIZE/1.75;
     // this.HOOPSIZE = canonicalToActual(4, HSCALE); // this.HOOPSIZE = canonicalToActual(1.5, HSCALE);
     // this.HOOPHEIGHT = this.HOOPSIZE + canonicalToActual(2.4, VSCALE);
-    this.PLAYERWIDTH = canonicalToActual(1.2, HSCALE);
+    this.PLAYERWIDTH = canonicalToActual(1.5, HSCALE);
     this.PLAYERHEIGHT = canonicalToActual(1.8, VSCALE);
     this.BALLSIZE = canonicalToActual(1, HSCALE);
     this.BALLHEIGHT = this.PLAYERHEIGHT + canonicalToActual(0.1, VSCALE);

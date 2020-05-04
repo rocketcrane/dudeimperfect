@@ -42,7 +42,7 @@ function setup() {
 
   // INITIALIZE GAME
   // WALL = width * (27 / 32 - 5 / 40);
-  BASKETBALL_GAME = new BasketballGame(-9.8, 1, 5);
+  BASKETBALL_GAME = new BasketballGame(5);
   console.log('here');
 
   // INITIALIZE BUTTONS
@@ -78,9 +78,9 @@ function draw() {
     
     fill(255,255,255);
     textSize(60);
-    text("WIN", width/2, height/2);
+    text("WIN", width/2, 11/16*height);
     textSize(30);
-    text("you may now hit 'reset' and move onto level "+(level%4+1), width/2, 3/4*height);
+    text("you may now hit 'reset' and move onto level "+(level%4+1), width/2, 27/32*height);
     hitNext = true;
   }
 }
@@ -133,13 +133,13 @@ function basketballNextLevel() {
     hitNext = false;
     level = level % 4 + 1;
     if (level == 1) {
-      BASKETBALL_GAME = new BasketballGame(-9.8, 1, 5);
+      BASKETBALL_GAME = new BasketballGame(5);
     } else if (level == 2) {
-      BASKETBALL_GAME = new BasketballGame(-9.8, 1, 10);
+      BASKETBALL_GAME = new BasketballGame(10);
     } else if (level == 3) {
-      BASKETBALL_GAME = new BasketballGame(-9.8, 1, 15);
+      BASKETBALL_GAME = new BasketballGame(15);
     } else {
-      BASKETBALL_GAME = new BasketballGame(-9.8, 1, 30);
+      BASKETBALL_GAME = new BasketballGame(30);
     }
   }
 }
