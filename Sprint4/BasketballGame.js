@@ -4,6 +4,7 @@ class BasketballGame{
     this.canonicalFullCourt = 41;
     this.percentDist = this.canonicalDist / this.canonicalFullCourt; // percentage of full court length (width of background) the level represents
     this.SHOOTINGTIMER = 0;
+    this.splash = 0;
     
     // CREATE INPUT FIELDS
     this.forceInput = createInput();
@@ -27,7 +28,7 @@ class BasketballGame{
       }
     );
     this.updateGame();
-    this.proj = new Basketball(imgBasketball, WALL, this.BALLHEIGHT, 1, 0, 60, this.BALLSIZE); 
+    this.proj = new Basketball(imgBasketball, WALL, this.BALLHEIGHT, 0, this.BALLSIZE); 
   }
 
   update() {
@@ -37,6 +38,7 @@ class BasketballGame{
       this.proj.move();
       this.hitBackboard();
       this.hitBasket();
+      this.splash = this.make.run();
     }
     this.proj.display();
     this.displayText();
@@ -62,7 +64,7 @@ class BasketballGame{
     let x1 = 18/22 * width; //this.HOOPLOC + this.HOOPSIZE/6;
     let x2 = 19/22 * width; //this.HOOPLOC + this.HOOPSIZE/2;
     let y1 = 1/2 * height; // FLOOR - HOOPHEIGHT
-    let y2 = 33/64 * height;  // FLOOR - RIMHEIGHT
+    let y2 = 35/64 * height;  // FLOOR - RIMHEIGHT
     if (DEBUG) {
       //stroke(255, 200, 100);
       drawRect(x1, y1, x2, y2);
@@ -127,17 +129,17 @@ class BasketballGame{
      *  TEXTBOXES + BUTTONS
      */
      
-    this.forceInput.position(width/12, height/8);
+    this.forceInput.position(width*5/32, height*3/13);
     this.forceInput.size(width/12, width/32);
     //this.angleInput.position(width/12, this.forceInput.y + this.forceInput.height + height/16);
     //this.angleInput.size(width/12, width/32);
-    this.enter.position(width/5, height/6.5);
+    this.enter.position(width*2/5, height/8);
     this.enter.size(width/12, width/18);
-    this.reset.position(this.enter.x + this.enter.width/2 + width/16, this.enter.y);
+    this.reset.position(width*2/5, height*2/8);
     this.reset.size(width/12, width/18);
-    this.nextLevel.position(width * 3/6, height/6.5);
+    this.nextLevel.position(width*11/21, height/8);
     this.nextLevel.size(width/12, width/18);
-    this.debug.position(width * 5/6, height/6.5);
+    this.debug.position(width*11/21, height*2/8);
     this.debug.size(width/12, width/18);
   }
 
@@ -145,7 +147,8 @@ class BasketballGame{
     if (!IS_MOVING) {
       IS_MOVING = true;
       BASKETBALL_GAME.SHOOTINGTIMER = 0;
-      BASKETBALL_GAME.proj = new Basketball(imgBasketball, WALL, BASKETBALL_GAME.BALLHEIGHT, 1, BASKETBALL_GAME.forceInput.value(), 60, BASKETBALL_GAME.BALLSIZE);
+      BASKETBALL_GAME.proj = new Basketball(imgBasketball, WALL, BASKETBALL_GAME.BALLHEIGHT, BASKETBALL_GAME.forceInput.value(), BASKETBALL_GAME.BALLSIZE);
+      BASKETBALL_GAME.make = new Time(BASKETBALL_GAME.canonicalDist, BASKETBALL_GAME.forceInput.value());
     }
   }
 
@@ -153,36 +156,39 @@ class BasketballGame{
     IS_MOVING = false;
     IS_WIN = false;
     BASKETBALL_GAME.SHOOTINGTIMER = 0;
-    BASKETBALL_GAME.proj = new Basketball(imgBasketball, WALL, BASKETBALL_GAME.BALLHEIGHT, 1, 0, 60, BASKETBALL_GAME.BALLSIZE);
+    BASKETBALL_GAME.proj = new Basketball(imgBasketball, WALL, BASKETBALL_GAME.BALLHEIGHT, 0, BASKETBALL_GAME.BALLSIZE);
   }
   
   displayText() {
     fill(200,255,100);
     textSize(24*FONTSIZECOEF);
     textAlign(LEFT);
-    text("Force (N):", width/12, height/8 - height/32);
-    text("Angle (°): 60", width/12, height/4 - height/32);
+    
+    text("Angle: 60°", width/12, height/8);
+    text("Time to sink shot: " + this.splash + " s", width/12, height*3/16);
+    text("Force:              N", width/12, height/4);
+    
     textAlign(CENTER);
     if (LEVEL== 1) {
       textSize(60*FONTSIZECOEF);
       text("Level " + LEVEL + ": Free Throw", width/2, height/16);
       textSize(24*FONTSIZECOEF);
-      text("Solution: 8 N, 60°", width/4, height/3);
+      text("Solution: 8 N", width*3/4, height/5);
     }else if (LEVEL == 2) {
       textSize(60*FONTSIZECOEF);
       text("Level " + LEVEL + ": Three Pointer", width/2, height/16);
       textSize(24*FONTSIZECOEF);
-      text("Solution: 11 N, 60°", width/4, height/3);
+      text("Solution: 11 N", width*3/4, height/5);
     }else if (LEVEL == 3) {
       textSize(60*FONTSIZECOEF);
       text("Level " + LEVEL + ": Half Court", width/2, height/16);
       textSize(24*FONTSIZECOEF);
-      text("Solution: 13 N, 60°", width/4, height/3);
+      text("Solution: 13.3 N", width*3/4, height/5);
     }else{
       textSize(60*FONTSIZECOEF);
       text("Level " + LEVEL + ": Full Court", width/2, height/16);
       textSize(24*FONTSIZECOEF);
-      text("Solution: 18.5 N, 60°", width/4, height/3);
+      text("Solution: 18.6 N", width*3/4, height/5);
     }
     if (IS_WIN) {
       fill(255,255,255);
@@ -196,7 +202,7 @@ class BasketballGame{
   
   proceed() {
     if (LEVELUP) {
-      if (!IS_MOVING) {
+      if (!IS_MOVING) {  //can I remove this?
         LEVELUP = false;
         LEVEL = LEVEL % 4 + 1;
         if (LEVEL == 1) {
