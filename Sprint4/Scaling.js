@@ -40,7 +40,7 @@ function drawVerticalDist(x, y1, y2) {
   line(x, y1, x, y2); // arrow body
   line(x - 5, y2, x + 5, y2); // do we need a bottom serif?
   strokeWeight(0);
-  textSize(24);
+  textSize(24*FONTSIZECOEF);
   textAlign(LEFT, CENTER);
   fill(100, 200, 255);
   text(getLength(y1, y2, VSCALE) + " " + UNIT, x - 50 , max(y1, y2) - abs(y2 - y1)/2); // show distance string
@@ -55,7 +55,7 @@ function drawHorizontalDist(y, x1, x2) {
   line(x1, y, x2, y); // arrow body
   line(x2, y - 5, x2, y + 5); // right serif
   strokeWeight(0);
-  textSize(24);
+  textSize(24*FONTSIZECOEF);
   textAlign(CENTER, CENTER);
   fill(100, 200, 255);
   text(getLength(x1, x2, HSCALE) + " " + UNIT, max(x1, x2) - abs(x2 - x1)/2, y + 20); // show distance string

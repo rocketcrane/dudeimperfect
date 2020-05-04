@@ -16,7 +16,7 @@ function debugBorders() {
 }
 
 function debugInfo() {
-  textSize(24);
+  textSize(24*FONTSIZECOEF);
   var centX = nf(actualToCanonical(BASKETBALL_GAME.proj.x, HSCALE), 0, 2);
   var centY = nf(actualToCanonical(BASKETBALL_GAME.proj.y, VSCALE), 0, 2);
   var canonicalVelX = nf(actualToCanonical(BASKETBALL_GAME.proj.vel.x, HSCALE), 0, 2);

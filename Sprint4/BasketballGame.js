@@ -14,11 +14,23 @@ class BasketballGame{
 
     // CREATE BUTTONS
     this.enter = createButton('Enter');
-    this.enter.size(100, 50);
+    //this.enter.size(100, 50);
     this.enter.mousePressed(this.newAttempt);
     this.reset = createButton('Reset');
-    this.reset.size(100, 50);
+    //this.reset.size(100, 50);
     this.reset.mousePressed(this.resetAttempt);
+    this.nextLevel = createButton('Next Level');
+    //this.nextLevel.size(100, 50);
+    this.nextLevel.mousePressed(nextLevel);
+    this.debug = createButton('DEBUG MODE');
+    //this.debug.size(100, 50);
+    this.debug.mousePressed(  
+      function() {
+        DEBUG = !DEBUG;
+      }
+    );
+    
+    
 
     this.updateConstants();
     this.proj = new Basketball(imgBasketball, WALL, this.BALLHEIGHT, 1, 0, 0, this.BALLSIZE);
@@ -126,7 +138,7 @@ class BasketballGame{
 
   updateInput() {
     // INPUT UPDATES AND POSITION
-    this.forceInput.position(width/12, height/8, 'relative');
+    this.forceInput.position(width/12, height/8);
     this.forceInput.size(width/12, width/32);
     this.angleInput.position(width/12, this.forceInput.y + this.forceInput.height + height/16);
     this.angleInput.size(width/12, width/32);
@@ -134,6 +146,10 @@ class BasketballGame{
     this.enter.size(width/12, width/18);
     this.reset.position(this.enter.x + this.enter.width/2 + width/16, this.enter.y);
     this.reset.size(width/12, width/18);
+    this.nextLevel.position(width * 3/6, height/6.5);
+    this.nextLevel.size(width/12, width/18);
+    this.debug.position(width * 5/6, height/6.5);
+    this.debug.size(width/12, width/18);
   }
 
   newAttempt() {

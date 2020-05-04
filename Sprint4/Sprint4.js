@@ -14,10 +14,10 @@ let IS_MOVING = false;
 let IS_WIN = false;
 let FPS = 80;
 let CANVAS;
-let NEXT_LEVEL_BUTTON, DEBUG_BUTTON; // buttons
 let hitNext = false;
 let game = 'basketball';
 let level = 1;
+let FONTSIZECOEF;
 
 // LOAD IMAGES AND FONTS BEFORE SETUP
 function preload() {
@@ -33,39 +33,20 @@ function setup() {
   // SETS UP CANVAS OBJECT WITH 16 * 9 RATIO INSIDE WINDOW
   let maxScale = calcScale();
   CANVAS = createCanvas(16 * maxScale, 9 * maxScale);
-  //VSCALE = ((height/3.213 + height/2.5) - (height/3.213)/1.7)/10;
 
   // DISPLAY SETTINGS
   frameRate(FPS);
   imageMode(CENTER);
-  
 
   // INITIALIZE GAME
-  // WALL = width * (27 / 32 - 5 / 40);
   BASKETBALL_GAME = new BasketballGame(5);
-  console.log('here');
-
-  // INITIALIZE BUTTONS
-  NEXT_LEVEL_BUTTON = createButton('Next Level');
-  NEXT_LEVEL_BUTTON.size(100, 50);
-  NEXT_LEVEL_BUTTON.position(width * 3/6, height/6.5);
-  NEXT_LEVEL_BUTTON.mousePressed(nextLevel);
-  DEBUG_BUTTON = createButton('DEBUG MODE');
-  DEBUG_BUTTON.size(100, 50);
-  DEBUG_BUTTON.position(width * 5/6, height/6.5);
-  DEBUG_BUTTON.mousePressed(function() {
-    DEBUG = !DEBUG;
-  }
-  );
 }
 
 
 function draw() {
-  // DISPLAY UPDATES
-  fill(0);
-  // background(255);
 
   // GAME
+  FONTSIZECOEF = width*0.001;
   BASKETBALL_GAME.update();
   displayText();
 
@@ -74,12 +55,10 @@ function draw() {
     runDebug();
   }
   if (IS_WIN) {
-    //background(0, 255, 0);
-    
     fill(255,255,255);
-    textSize(60);
+    textSize(60*FONTSIZECOEF);
     text("WIN", width/2, 11/16*height);
-    textSize(30);
+    textSize(30*FONTSIZECOEF);
     text("you may now hit 'reset' and move onto level "+(level%4+1), width/2, 27/32*height);
     hitNext = true;
   }
@@ -87,37 +66,36 @@ function draw() {
 
 function displayText() {
   fill(200,255,100);
-  textSize(24);
+  textSize(24*FONTSIZECOEF);
   textAlign(LEFT);
   text("Force (N):", width/12, height/8 - height/32);
   text("Angle (°):", width/12, height/4 - height/32);
-  textSize(24);
   if (level == 1) {
     textAlign(CENTER);
-    textSize(60);
+    textSize(60*FONTSIZECOEF);
     text("Level " + level + ": Free Throw", width/2, height/16);
-    textSize(24);
+    textSize(24*FONTSIZECOEF);
     text("Solution: 8 N, 60°", width/4, height/3);
   }
   if (level == 2) {
     textAlign(CENTER);
-    textSize(60);
+    textSize(60*FONTSIZECOEF);
     text("Level " + level + ": Three Pointer", width/2, height/16);
-    textSize(24);
+    textSize(24*FONTSIZECOEF);
     text("Solution: 11 N, 60°", width/4, height/3);
   }
   if (level == 3) {
     textAlign(CENTER);
-    textSize(60);
+    textSize(60*FONTSIZECOEF);
     text("Level " + level + ": Half Court", width/2, height/16);
-    textSize(24);
+    textSize(24*FONTSIZECOEF);
     text("Solution: 13 N, 60°", width/4, height/3);
   }
   if (level == 4) {
     textAlign(CENTER);
-    textSize(60);
+    textSize(60*FONTSIZECOEF);
     text("Level " + level + ": Full Court", width/2, height/16);
-    textSize(24);
+    textSize(24*FONTSIZECOEF);
     text("Solution: 18.5 N, 60°", width/4, height/3);
   }
 }
