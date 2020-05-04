@@ -4,40 +4,34 @@ class BasketballGame{
     this.canonicalFullCourt = 41;
     this.percentDist = this.canonicalDist / this.canonicalFullCourt; // percentage of full court length (width of background) the level represents
     this.SHOOTINGTIMER = 0;
+    
     // CREATE INPUT FIELDS
     this.forceInput = createInput();
     this.forceInput.size(100, 50);
     this.forceInput.style('font-size', '24px');
-    this.angleInput = createInput();
-    this.angleInput.size(100, 50);
-    this.angleInput.style('font-size', '24px');
+    // this.angleInput = createInput();
+    // this.angleInput.size(100, 50);
+    // this.angleInput.style('font-size', '24px');
 
     // CREATE BUTTONS
     this.enter = createButton('Enter');
-    //this.enter.size(100, 50);
     this.enter.mousePressed(this.newAttempt);
     this.reset = createButton('Reset');
-    //this.reset.size(100, 50);
     this.reset.mousePressed(this.resetAttempt);
     this.nextLevel = createButton('Next Level');
-    //this.nextLevel.size(100, 50);
-    this.nextLevel.mousePressed(this.canProceed);
+    this.nextLevel.mousePressed(this.proceed);
     this.debug = createButton('DEBUG MODE');
-    //this.debug.size(100, 50);
     this.debug.mousePressed(  
       function() {
         DEBUG = !DEBUG;
       }
     );
-    
-    
-
-    this.updateConstants();
-    this.proj = new Basketball(imgBasketball, WALL, this.BALLHEIGHT, 1, 0, 0, this.BALLSIZE);
+    this.updateGame();
+    this.proj = new Basketball(imgBasketball, WALL, this.BALLHEIGHT, 1, 0, 60, this.BALLSIZE); 
   }
 
   update() {
-    this.updateConstants();
+    this.updateGame();
     this.updateInput();
     if (IS_MOVING) {
       this.proj.move();
@@ -80,69 +74,63 @@ class BasketballGame{
     }
   }
 
-  updateConstants() {
+  updateGame() {
     /*
      *  CONSTANTS
      */
     
-    // basically background
-    drawImageOnFloor(imgBasketballBackground, width/2, 7/8*height); 
-    
-    //location of objects
-    this.HOOPLOC = width * 27 / 32; // hoop location consistent relative to the background
-    // game board location depends on screen size & level; small screen + free throws having the shortest, large screen + half court the longest
-    this.DISTANCE = width * this.percentDist; // distance between launch and hoop in pixels
-    WALL = this.HOOPLOC - this.DISTANCE; // canonical (0, ); where the ball starts
+    // item locations in pixels
+    drawImageOnFloor(imgBasketballBackground, width/2, 7/8*height); // background location consistent with screensize
+    this.HOOPLOC = width * 27 / 32; // hoop location consistent with screensize
+    this.DISTANCE = width * this.percentDist; // shot distance depends on screensize & level; small screen + free throws having the shortest, large screen + half court the longest
+    WALL = this.HOOPLOC - this.DISTANCE; // canonical (0, )
     FLOOR = height * 7/8; // canonical (, 0)
-    // mark distance to hoop
-    drawHorizontalDist(FLOOR + 20, WALL, this.HOOPLOC);
     
-    useAsPixelReference(width, this.canonicalFullCourt, 3/8*height, 3); // scalar coefficient from pixel to real.   OG: useAsHeightReference(this.DISTANCE, this.canonicalDist)
+    useAsPixelReference(width, this.canonicalFullCourt, 3/8*height, 3); // calculate scalar coefficients for translating actual & canonical (pixel & real)
     
-    // calculate size of objects based on their real-world size
-    this.RIMHEIGHT = canonicalToActual(3, VSCALE); //this.HOOPHEIGHT - this.HOOPSIZE/1.75;
-    // this.HOOPSIZE = canonicalToActual(4, HSCALE); // this.HOOPSIZE = canonicalToActual(1.5, HSCALE);
-    // this.HOOPHEIGHT = this.HOOPSIZE + canonicalToActual(2.4, VSCALE);
+    // calculate item sizes based on their real-world
+    this.RIMHEIGHT = canonicalToActual(3, VSCALE);
     this.PLAYERWIDTH = canonicalToActual(1.5, HSCALE);
     this.PLAYERHEIGHT = canonicalToActual(1.8, VSCALE);
     this.BALLSIZE = canonicalToActual(1, HSCALE);
     this.BALLHEIGHT = this.PLAYERHEIGHT + canonicalToActual(0.1, VSCALE);
     
-    // resize objects based on their new size
+    // resize items based on screensize
     imgBasketball.resize(this.BALLSIZE, this.BALLSIZE);
     imgBasketballPlayer.resize(this.PLAYERWIDTH, this.PLAYERHEIGHT);
     imgBasketballPlayerShoot.resize(this.PLAYERWIDTH, this.PLAYERHEIGHT);
     imgBasketballPlayerStill.resize(this.PLAYERWIDTH, this.PLAYERHEIGHT);
-    // imgBasketballHoop.resize(this.HOOPSIZE, this.HOOPSIZE);
     imgBasketballBackground.resize(0, height);
+    
+    // mark distances & heights
+    drawHorizontalDist(FLOOR + 20, WALL, this.HOOPLOC);
+    drawVerticalDist(WALL - width/20, FLOOR, FLOOR - this.BALLHEIGHT);
+    drawVerticalDist(this.HOOPLOC+ width/20, FLOOR, FLOOR - this.RIMHEIGHT);
 
     //FIX NEEDED FOR IMAGES BLURRING AS THEY RESIZE
 
     if (IS_MOVING) {
-      if (this.SHOOTINGTIMER <= 60) {
+      if (this.SHOOTINGTIMER <= 60) { // under 3/4 of a second
         this.SHOOTINGTIMER++;
         drawImageOnFloor(imgBasketballPlayerShoot, WALL, this.PLAYERHEIGHT);
-      } else {
+      } else { // 3/4 of a second later
         drawImageOnFloor(imgBasketballPlayerStill, WALL, this.PLAYERHEIGHT);
       }
       this.proj.move();
     } else {
       drawImageOnFloor(imgBasketballPlayer, WALL, this.PLAYERHEIGHT);
     }
-    
-    drawVerticalDist(WALL - width/20, FLOOR, FLOOR - this.BALLHEIGHT);
-
-    // update hoop
-    // drawImageOnFloor(imgBasketballHoop, this.HOOPLOC, this.HOOPHEIGHT); // always overlaps with hoop on the background
-    drawVerticalDist(this.HOOPLOC+ width/20, FLOOR, FLOOR - this.RIMHEIGHT);
   }
 
   updateInput() {
-    // INPUT UPDATES AND POSITION
+    /*
+     *  TEXTBOXES + BUTTONS
+     */
+     
     this.forceInput.position(width/12, height/8);
     this.forceInput.size(width/12, width/32);
-    this.angleInput.position(width/12, this.forceInput.y + this.forceInput.height + height/16);
-    this.angleInput.size(width/12, width/32);
+    //this.angleInput.position(width/12, this.forceInput.y + this.forceInput.height + height/16);
+    //this.angleInput.size(width/12, width/32);
     this.enter.position(width/5, height/6.5);
     this.enter.size(width/12, width/18);
     this.reset.position(this.enter.x + this.enter.width/2 + width/16, this.enter.y);
@@ -157,7 +145,7 @@ class BasketballGame{
     if (!IS_MOVING) {
       IS_MOVING = true;
       BASKETBALL_GAME.SHOOTINGTIMER = 0;
-      BASKETBALL_GAME.proj = new Basketball(imgBasketball, WALL, BASKETBALL_GAME.BALLHEIGHT, 1, BASKETBALL_GAME.forceInput.value(), BASKETBALL_GAME.angleInput.value(), BASKETBALL_GAME.BALLSIZE);
+      BASKETBALL_GAME.proj = new Basketball(imgBasketball, WALL, BASKETBALL_GAME.BALLHEIGHT, 1, BASKETBALL_GAME.forceInput.value(), 60, BASKETBALL_GAME.BALLSIZE);
     }
   }
 
@@ -165,7 +153,7 @@ class BasketballGame{
     IS_MOVING = false;
     IS_WIN = false;
     BASKETBALL_GAME.SHOOTINGTIMER = 0;
-    BASKETBALL_GAME.proj = new Basketball(imgBasketball, WALL, BASKETBALL_GAME.BALLHEIGHT, 1, 0, 0, BASKETBALL_GAME.BALLSIZE);
+    BASKETBALL_GAME.proj = new Basketball(imgBasketball, WALL, BASKETBALL_GAME.BALLHEIGHT, 1, 0, 60, BASKETBALL_GAME.BALLSIZE);
   }
   
   displayText() {
@@ -173,27 +161,24 @@ class BasketballGame{
     textSize(24*FONTSIZECOEF);
     textAlign(LEFT);
     text("Force (N):", width/12, height/8 - height/32);
-    text("Angle (°):", width/12, height/4 - height/32);
+    text("Angle (°): 60", width/12, height/4 - height/32);
+    textAlign(CENTER);
     if (LEVEL== 1) {
-      textAlign(CENTER);
       textSize(60*FONTSIZECOEF);
       text("Level " + LEVEL + ": Free Throw", width/2, height/16);
       textSize(24*FONTSIZECOEF);
       text("Solution: 8 N, 60°", width/4, height/3);
     }else if (LEVEL == 2) {
-      textAlign(CENTER);
       textSize(60*FONTSIZECOEF);
       text("Level " + LEVEL + ": Three Pointer", width/2, height/16);
       textSize(24*FONTSIZECOEF);
       text("Solution: 11 N, 60°", width/4, height/3);
     }else if (LEVEL == 3) {
-      textAlign(CENTER);
       textSize(60*FONTSIZECOEF);
       text("Level " + LEVEL + ": Half Court", width/2, height/16);
       textSize(24*FONTSIZECOEF);
       text("Solution: 13 N, 60°", width/4, height/3);
     }else{
-      textAlign(CENTER);
       textSize(60*FONTSIZECOEF);
       text("Level " + LEVEL + ": Full Court", width/2, height/16);
       textSize(24*FONTSIZECOEF);
@@ -209,7 +194,7 @@ class BasketballGame{
     }
   }
   
-  canProceed() {
+  proceed() {
     if (LEVELUP) {
       if (!IS_MOVING) {
         LEVELUP = false;

@@ -1,5 +1,4 @@
 function runDebug() {
-  
   debugBorders();
   debugInfo();
 }
@@ -17,14 +16,13 @@ function debugBorders() {
 
 function debugInfo() {
   textSize(24*FONTSIZECOEF);
-  var centX = nf(actualToCanonical(BASKETBALL_GAME.proj.x, HSCALE), 0, 2);
-  var centY = nf(actualToCanonical(BASKETBALL_GAME.proj.y, VSCALE), 0, 2);
-  var canonicalVelX = nf(actualToCanonical(BASKETBALL_GAME.proj.vel.x, HSCALE), 0, 2);
-  var canonicalVelY = nf(actualToCanonical(BASKETBALL_GAME.proj.vel.y, VSCALE), 0, 2);
+  let centX = nf(actualToCanonical(BASKETBALL_GAME.proj.x, HSCALE), 0, 2);
+  let centY = nf(actualToCanonical(BASKETBALL_GAME.proj.y, VSCALE), 0, 2);
+  let canonicalVelX = nf(actualToCanonical(BASKETBALL_GAME.proj.vel.x, HSCALE), 0, 2);
+  let canonicalVelY = nf(actualToCanonical(BASKETBALL_GAME.proj.vel.y, VSCALE), 0, 2);
   let TSCALE = Math.sqrt(HSCALE*HSCALE+VSCALE*VSCALE);
   var canonicalVel = nf(actualToCanonical(BASKETBALL_GAME.proj.vel.mag(), TSCALE), 0, 2);
   fill(255, 0, 90);
-  // text("TRUE XY: " + BASKETBALL_GAME.proj.trueX + ", " + BASKETBALL_GAME.proj.trueY, width/2, height/2 - 50);
   text("COORD: " + centX + " m, " + centY + " m", width/2, height/2);
   text("VEL: " + canonicalVelX + " m/s H, " + canonicalVelY + " m/s V", width/2, height/2 + 50);
   text(canonicalVel + " m/s Tot", width/2, height/2 + 100);

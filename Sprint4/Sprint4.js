@@ -40,7 +40,7 @@ function setup() {
   frameRate(FPS);
 
   // INITIALIZE GAME
-  BASKETBALL_GAME = new BasketballGame(5);
+  BASKETBALL_GAME = new BasketballGame(5); // begins with freethrow; distance: 5m
 }
 
 
