@@ -1,3 +1,9 @@
+/*
+ *  PROJECTILE OBJECT
+ */
+
+//--------------------------------------
+
 class Basketball{
   constructor(img, x, y, force, diameter) {
     this.img = img;
@@ -16,7 +22,6 @@ class Basketball{
     // initial projectile velocity, horizontal velocity = cos0 * v, vertical velocity = sin0 * v
     this.vel = createVector(cos(radian)*this.veloc_proj, sin(radian)*this.veloc_proj);
   }
- 
   
   move() {
     this.accelerate(0, this.grav/FPS);

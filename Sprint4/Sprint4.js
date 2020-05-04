@@ -5,19 +5,23 @@
 
 let DEBUG = true; // enter/exit debug mode
 
-// GLOBAL VARIABLES
+// MODES
 let MENU; // menu object
 let TUTORIAL; // tutorial object
 let BASKETBALL_GAME; // game object
+
+// SCALE & PLACEMENTS
 let FONTSIZECOEF; 
-let FPS = 80;
 let HSCALE, VSCALE; // how many pixels long, high one unit is. should be in BasketballGame
 let WALL, FLOOR; // lengths to center canonical placements & movements. should be in BasketballGame
-let IS_MOVING = false; // should be in BasketballGame
-let IS_WIN = false; // should be in BasketballGame
-let LEVEL = 1; // should be in BasketballGame
-let LEVELUP = false; // should be in BasketballGame
 
+// BASKETBALL GAME
+let IS_MOVING = false;
+let IS_WIN = false;
+let LEVEL = 1;
+let LEVELUP = false;
+
+let FPS = 80;
 
 // LOAD IMAGES AND FONTS BEFORE SETUP
 function preload() {
@@ -27,8 +31,6 @@ function preload() {
   imgBasketballPlayer = loadImage('assets/person_basketball.png');
   imgBasketballPlayerShoot = loadImage('assets/person_basketball_shoot.png');
   imgBasketballPlayerStill = loadImage('assets/person_basketball_still.png');
-  //imgBasketballHoop = loadImage('assets/basketball_hoop.png');
-  
 }
 
 function setup() {

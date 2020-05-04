@@ -1,10 +1,15 @@
+/*
+ *  LEVELED BALL GAME
+ */
+
+//--------------------------------------
+
 class BasketballGame{
   constructor(canonicalDist) { // the ball mass should be constant
     this.canonicalDist = canonicalDist;
     this.canonicalFullCourt = 41;
     this.percentDist = this.canonicalDist / this.canonicalFullCourt; // percentage of full court length (width of background) the level represents
     this.SHOOTINGTIMER = 0;
-    this.splash = 0;
     
     // CREATE INPUT FIELDS
     this.forceInput = createInput();
@@ -29,6 +34,8 @@ class BasketballGame{
     );
     this.updateGame();
     this.proj = new Basketball(imgBasketball, WALL, this.BALLHEIGHT, 0, this.BALLSIZE); 
+    this.make = new Time(this.canonicalDist); 
+    this.splash = this.make.run(20);
   }
 
   update() {
@@ -38,48 +45,12 @@ class BasketballGame{
       this.proj.move();
       this.hitBackboard();
       this.hitBasket();
-      this.splash = this.make.run();
     }
     this.proj.display();
     this.displayText();
   }
-
-  hitBackboard() {
-    // x1, x2, y1, y2 represent true coord
-    let x1 = 19/22 * width; //this.HOOPLOC + this.HOOPSIZE/6;
-    let x2 = 10/11 * width; //this.HOOPLOC + this.HOOPSIZE/2;
-    let y1 = 3/8 * height; // FLOOR - HOOPHEIGHT
-    let y2 = 1/2 * height;  // FLOOR - RIMHEIGHT
-    let isAtBackboardX = this.proj.trueX >= x1 && this.proj.trueX <= x2;
-    let isAtBackboardY = this.proj.trueY >= y1 && this.proj.trueY <= y2;
-    if (this.proj.vel.x > 0 && isAtBackboardX && isAtBackboardY) {
-      this.proj.vel.x *= -1;
-    }
-    if (DEBUG) {
-      drawRect(x1, y1, x2, y2);
-    }
-  }
-
-  hitBasket() {
-    let x1 = 18/22 * width; //this.HOOPLOC + this.HOOPSIZE/6;
-    let x2 = 19/22 * width; //this.HOOPLOC + this.HOOPSIZE/2;
-    let y1 = 1/2 * height; // FLOOR - HOOPHEIGHT
-    let y2 = 35/64 * height;  // FLOOR - RIMHEIGHT
-    if (DEBUG) {
-      //stroke(255, 200, 100);
-      drawRect(x1, y1, x2, y2);
-    }
-    let isAtWinX = this.proj.trueX >= x1 && this.proj.trueX <= x2;
-    let isAtWinY = this.proj.trueY >= y1 && this.proj.trueY <= y2;
-    if (isAtWinX && isAtWinY) {
-      IS_WIN = true;
-    }
-  }
-
+  
   updateGame() {
-    /*
-     *  CONSTANTS
-     */
     
     // item locations in pixels
     drawImageOnFloor(imgBasketballBackground, width/2, 7/8*height); // background location consistent with screensize
@@ -125,9 +96,6 @@ class BasketballGame{
   }
 
   updateInput() {
-    /*
-     *  TEXTBOXES + BUTTONS
-     */
      
     this.forceInput.position(width*5/32, height*3/13);
     this.forceInput.size(width/12, width/32);
@@ -143,12 +111,44 @@ class BasketballGame{
     this.debug.size(width/12, width/18);
   }
 
+  hitBackboard() {
+    // x1, x2, y1, y2 represent true coord
+    let x1 = 19/22 * width; //this.HOOPLOC + this.HOOPSIZE/6;
+    let x2 = 10/11 * width; //this.HOOPLOC + this.HOOPSIZE/2;
+    let y1 = 3/8 * height; // FLOOR - HOOPHEIGHT
+    let y2 = 1/2 * height;  // FLOOR - RIMHEIGHT
+    let isAtBackboardX = this.proj.trueX >= x1 && this.proj.trueX <= x2;
+    let isAtBackboardY = this.proj.trueY >= y1 && this.proj.trueY <= y2;
+    if (this.proj.vel.x > 0 && isAtBackboardX && isAtBackboardY) {
+      this.proj.vel.x *= -1;
+    }
+    if (DEBUG) {
+      drawRect(x1, y1, x2, y2);
+    }
+  }
+
+  hitBasket() {
+    let x1 = 18/22 * width; //this.HOOPLOC + this.HOOPSIZE/6;
+    let x2 = 19/22 * width; //this.HOOPLOC + this.HOOPSIZE/2;
+    let y1 = 1/2 * height; // FLOOR - HOOPHEIGHT
+    let y2 = 35/64 * height;  // FLOOR - RIMHEIGHT
+    if (DEBUG) {
+      //stroke(255, 200, 100);
+      drawRect(x1, y1, x2, y2);
+    }
+    let isAtWinX = this.proj.trueX >= x1 && this.proj.trueX <= x2;
+    let isAtWinY = this.proj.trueY >= y1 && this.proj.trueY <= y2;
+    if (isAtWinX && isAtWinY) {
+      IS_WIN = true;
+    }
+  }
+
   newAttempt() {
     if (!IS_MOVING) {
       IS_MOVING = true;
       BASKETBALL_GAME.SHOOTINGTIMER = 0;
       BASKETBALL_GAME.proj = new Basketball(imgBasketball, WALL, BASKETBALL_GAME.BALLHEIGHT, BASKETBALL_GAME.forceInput.value(), BASKETBALL_GAME.BALLSIZE);
-      BASKETBALL_GAME.make = new Time(BASKETBALL_GAME.canonicalDist, BASKETBALL_GAME.forceInput.value());
+      BASKETBALL_GAME.make = new Time(BASKETBALL_GAME.canonicalDist);
     }
   }
 
@@ -157,6 +157,23 @@ class BasketballGame{
     IS_WIN = false;
     BASKETBALL_GAME.SHOOTINGTIMER = 0;
     BASKETBALL_GAME.proj = new Basketball(imgBasketball, WALL, BASKETBALL_GAME.BALLHEIGHT, 0, BASKETBALL_GAME.BALLSIZE);
+  }
+  
+  proceed() {
+    if (LEVELUP) {
+      if (!IS_MOVING) {  //can I remove this?
+        LEVELUP = false;
+        LEVEL = LEVEL % 4 + 1;
+        if (LEVEL == 1) {
+          BASKETBALL_GAME = new BasketballGame(5);
+        } else if (LEVEL == 2) {
+          BASKETBALL_GAME = new BasketballGame(10);
+        } else if (LEVEL == 3) {
+          BASKETBALL_GAME = new BasketballGame(15);
+        } else {
+          BASKETBALL_GAME = new BasketballGame(30);
+        }
+    }
   }
   
   displayText() {
@@ -193,28 +210,12 @@ class BasketballGame{
     if (IS_WIN) {
       fill(255,255,255);
       textSize(60*FONTSIZECOEF);
-      text("WIN", width/2, 11/16*height);
+      text("WIN", width/2, 13/20*height);
       textSize(30*FONTSIZECOEF);
-      text("you may now hit 'reset' and move onto level "+(LEVEL%4+1), width/2, 27/32*height);
+      text("you may now hit 'Reset'\n and move onto level "+(LEVEL%4+1), width/2, 28/32*height);
       LEVELUP = true;
     }
   }
   
-  proceed() {
-    if (LEVELUP) {
-      if (!IS_MOVING) {  //can I remove this?
-        LEVELUP = false;
-        LEVEL = LEVEL % 4 + 1;
-        if (LEVEL == 1) {
-          BASKETBALL_GAME = new BasketballGame(5);
-        } else if (LEVEL == 2) {
-          BASKETBALL_GAME = new BasketballGame(10);
-        } else if (LEVEL == 3) {
-          BASKETBALL_GAME = new BasketballGame(15);
-        } else {
-          BASKETBALL_GAME = new BasketballGame(30);
-        }
-      }
-    }
-  }
+  
 }

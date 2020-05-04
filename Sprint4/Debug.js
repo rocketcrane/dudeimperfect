@@ -1,3 +1,9 @@
+/*
+ * DEBUG/ALIGNMENT TOOLS
+ */
+
+//--------------------------------------
+
 function runDebug() {
   debugBorders();
   debugInfo();
@@ -23,9 +29,9 @@ function debugInfo() {
   let TSCALE = Math.sqrt(HSCALE*HSCALE+VSCALE*VSCALE);
   var canonicalVel = nf(actualToCanonical(BASKETBALL_GAME.proj.vel.mag(), TSCALE), 0, 2);
   fill(255, 0, 90);
-  text("COORD: " + centX + " m, " + centY + " m", width/2, height/2);
-  text("VEL: " + canonicalVelX + " m/s H, " + canonicalVelY + " m/s V", width/2, height/2 + 50);
-  text(canonicalVel + " m/s Tot", width/2, height/2 + 100);
+  text("COORD: " + centX + " m, " + centY + " m", width/2, height*9/20);
+  text("VEL: " + canonicalVelX + " m/s H, " + canonicalVelY + " m/s V", width/2, height/2);
+  text(canonicalVel + " m/s Tot", width/2, height*11/20);
   text("(0,0) m", WALL, FLOOR - 20);
   fill(0);
   strokeWeight(1);

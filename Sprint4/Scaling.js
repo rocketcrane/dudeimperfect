@@ -3,31 +3,20 @@
  */
 
 //--------------------------------------
-// triggers every time window is resized
-function windowResized() {
-  widthScale = Math.floor(window.innerWidth/16);
-  heightScale = Math.floor(window.innerHeight/9);
-  minScale = min(widthScale, heightScale);
-  resizeCanvas(16 * minScale, 9 * minScale);
-  BASKETBALL_GAME.updateInput();
-}
-
-//--------------------------------------
-// Aligns (x,y) coordinate that begins at bottom left to canonical (0,0); x increases towards right, y increases towards up.
-// Canonical (0,0) is NOT actual (pixel) (0,0); pixel (0,0) is not very useful here
-function alignX(x) {
-  return WALL + x; // the wall is where the vertical line where the shooter stands with the ball; will move depending on the question
-}
-
-function alignY(y) {
-  return FLOOR - y; // the floor is the horizontal line down the middle of the court
-}
+//// triggers every time window is resized
+//function windowResized() {
+//  widthScale = Math.floor(window.innerWidth/16);
+//  heightScale = Math.floor(window.innerHeight/9);
+//  minScale = min(widthScale, heightScale);
+//  resizeCanvas(16 * minScale, 9 * minScale);
+//  BASKETBALL_GAME.updateInput();
+//}
 
 //--------------------------------------
 // draws an image where its midpoint is at x pixels and its top is y pixels from the floor
 function drawImageOnFloor(img, x, heightInPixels) {
   imageMode(CORNER);
-  image(img, x - img.width/2, alignY(heightInPixels));
+  image(img, x - img.width/2, FLOOR - heightInPixels);
   imageMode(CENTER);
 }
 
