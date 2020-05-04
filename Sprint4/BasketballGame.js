@@ -21,7 +21,7 @@ class BasketballGame{
     this.reset.mousePressed(this.resetAttempt);
     this.nextLevel = createButton('Next Level');
     //this.nextLevel.size(100, 50);
-    this.nextLevel.mousePressed(nextLevel);
+    this.nextLevel.mousePressed(this.canProceed);
     this.debug = createButton('DEBUG MODE');
     //this.debug.size(100, 50);
     this.debug.mousePressed(  
@@ -45,6 +45,7 @@ class BasketballGame{
       this.hitBasket();
     }
     this.proj.display();
+    this.displayText();
   }
 
   hitBackboard() {
@@ -165,5 +166,64 @@ class BasketballGame{
     IS_WIN = false;
     BASKETBALL_GAME.SHOOTINGTIMER = 0;
     BASKETBALL_GAME.proj = new Basketball(imgBasketball, WALL, BASKETBALL_GAME.BALLHEIGHT, 1, 0, 0, BASKETBALL_GAME.BALLSIZE);
+  }
+  
+  displayText() {
+    fill(200,255,100);
+    textSize(24*FONTSIZECOEF);
+    textAlign(LEFT);
+    text("Force (N):", width/12, height/8 - height/32);
+    text("Angle (°):", width/12, height/4 - height/32);
+    if (LEVEL== 1) {
+      textAlign(CENTER);
+      textSize(60*FONTSIZECOEF);
+      text("Level " + LEVEL + ": Free Throw", width/2, height/16);
+      textSize(24*FONTSIZECOEF);
+      text("Solution: 8 N, 60°", width/4, height/3);
+    }else if (LEVEL == 2) {
+      textAlign(CENTER);
+      textSize(60*FONTSIZECOEF);
+      text("Level " + LEVEL + ": Three Pointer", width/2, height/16);
+      textSize(24*FONTSIZECOEF);
+      text("Solution: 11 N, 60°", width/4, height/3);
+    }else if (LEVEL == 3) {
+      textAlign(CENTER);
+      textSize(60*FONTSIZECOEF);
+      text("Level " + LEVEL + ": Half Court", width/2, height/16);
+      textSize(24*FONTSIZECOEF);
+      text("Solution: 13 N, 60°", width/4, height/3);
+    }else{
+      textAlign(CENTER);
+      textSize(60*FONTSIZECOEF);
+      text("Level " + LEVEL + ": Full Court", width/2, height/16);
+      textSize(24*FONTSIZECOEF);
+      text("Solution: 18.5 N, 60°", width/4, height/3);
+    }
+    if (IS_WIN) {
+      fill(255,255,255);
+      textSize(60*FONTSIZECOEF);
+      text("WIN", width/2, 11/16*height);
+      textSize(30*FONTSIZECOEF);
+      text("you may now hit 'reset' and move onto level "+(LEVEL%4+1), width/2, 27/32*height);
+      LEVELUP = true;
+    }
+  }
+  
+  canProceed() {
+    if (LEVELUP) {
+      if (!IS_MOVING) {
+        LEVELUP = false;
+        LEVEL = LEVEL % 4 + 1;
+        if (LEVEL == 1) {
+          BASKETBALL_GAME = new BasketballGame(5);
+        } else if (LEVEL == 2) {
+          BASKETBALL_GAME = new BasketballGame(10);
+        } else if (LEVEL == 3) {
+          BASKETBALL_GAME = new BasketballGame(15);
+        } else {
+          BASKETBALL_GAME = new BasketballGame(30);
+        }
+      }
+    }
   }
 }

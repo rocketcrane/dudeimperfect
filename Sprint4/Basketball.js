@@ -29,7 +29,6 @@ class Basketball{
   accelerate(ddx, ddy) {
     this.vel.x += ddx;
     this.vel.y += ddy;
-    console.log("accel");
   }
 
   update() {

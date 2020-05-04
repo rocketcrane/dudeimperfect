@@ -43,7 +43,7 @@ function drawVerticalDist(x, y1, y2) {
   textSize(24*FONTSIZECOEF);
   textAlign(LEFT, CENTER);
   fill(100, 200, 255);
-  text(getLength(y1, y2, VSCALE) + " " + UNIT, x - 50 , max(y1, y2) - abs(y2 - y1)/2); // show distance string
+  text(getLength(y1, y2, VSCALE) + " m", x - 50 , max(y1, y2) - abs(y2 - y1)/2); // show distance string
 }
 
 //--------------------------------------
@@ -58,7 +58,7 @@ function drawHorizontalDist(y, x1, x2) {
   textSize(24*FONTSIZECOEF);
   textAlign(CENTER, CENTER);
   fill(100, 200, 255);
-  text(getLength(x1, x2, HSCALE) + " " + UNIT, max(x1, x2) - abs(x2 - x1)/2, y + 20); // show distance string
+  text(getLength(x1, x2, HSCALE) + " m", max(x1, x2) - abs(x2 - x1)/2, y + 20); // show distance string
 }
 
 function useAsPixelReference(lengthInPixels, canonicalLength, heightInPixels, canonicalHeight) {

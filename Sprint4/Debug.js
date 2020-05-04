@@ -25,10 +25,10 @@ function debugInfo() {
   var canonicalVel = nf(actualToCanonical(BASKETBALL_GAME.proj.vel.mag(), TSCALE), 0, 2);
   fill(255, 0, 90);
   // text("TRUE XY: " + BASKETBALL_GAME.proj.trueX + ", " + BASKETBALL_GAME.proj.trueY, width/2, height/2 - 50);
-  text("COORD: " + centX + " " + UNIT + ", " + centY + " " + UNIT , width/2, height/2);
+  text("COORD: " + centX + " m, " + centY + " m", width/2, height/2);
   text("VEL: " + canonicalVelX + " m/s H, " + canonicalVelY + " m/s V", width/2, height/2 + 50);
   text(canonicalVel + " m/s Tot", width/2, height/2 + 100);
-  text("(0,0)" + UNIT, WALL, FLOOR - 20);
+  text("(0,0) m", WALL, FLOOR - 20);
   fill(0);
   strokeWeight(1);
   line(0, FLOOR, width, FLOOR);
