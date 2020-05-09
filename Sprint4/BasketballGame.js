@@ -173,7 +173,6 @@ class BasketballGame{
         } else {
           BASKETBALL_GAME = new BasketballGame(30);
         }
-      }
     }
   }
   
