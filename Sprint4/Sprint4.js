@@ -1,6 +1,6 @@
 /***********************TRICK SHOT HEAVEN***********************/
 /***************************************************************/
-// May 4th
+// May 9th
 // by Jason Han, Brian Lee, Michael Averin, Lingxiu Zhang
 
 let DEBUG = true; // enter/exit debug mode
@@ -42,7 +42,7 @@ function setup() {
   frameRate(FPS);
 
   // INITIALIZE GAME
-  BASKETBALL_GAME = new BasketballGame(5); // begins with freethrow; distance: 5m
+  BASKETBALL_GAME = new LearnGame(5); // begins with freethrow; distance: 5m
 }
 
 
