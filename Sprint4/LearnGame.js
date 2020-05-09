@@ -13,15 +13,16 @@ class LearnGame extends BasketballGame{
     if (LEVELUP) {
       if (!IS_MOVING) {  //can I remove this?
         LEVELUP = false;
-        LEVEL = LEVEL % 4 + 1;
-        if (LEVEL == 1) {
-          BASKETBALL_GAME = new LearnGame(5);
-        } else if (LEVEL == 2) {
+        LEVEL = LEVEL % 8 + 1;
+        console.log(LEVEL);
+        if (LEVEL == 2) {
           BASKETBALL_GAME = new LearnGame(10);
         } else if (LEVEL == 3) {
           BASKETBALL_GAME = new LearnGame(15);
-        } else {
+        } else if (LEVEL == 4){
           BASKETBALL_GAME = new LearnGame(30);
+        } else {
+          BASKETBALL_GAME = new TrickShotGame(8);
         }
       }
     }
