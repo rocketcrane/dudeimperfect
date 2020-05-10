@@ -25,6 +25,7 @@ let FPS = 80;
 
 // LOAD IMAGES AND FONTS BEFORE SETUP
 function preload() {
+  
   //imgMenu
   imgBasketballBackground = loadImage('assets/basketballBG.jpeg');
   imgBasketball = loadImage('assets/basketball.png');
@@ -42,11 +43,14 @@ function setup() {
   frameRate(FPS);
 
   // INITIALIZE GAME
-  BASKETBALL_GAME = new LearnGame(5); // begins with freethrow; distance: 5m
+  BASKETBALL_GAME = new LearnGame(5); // begins with freethrow; distance: 5m\
+  
+  
 }
 
 
 function draw() {
+
   // GAME
   FONTSIZECOEF = width*0.001;
   BASKETBALL_GAME.update();

@@ -22,7 +22,7 @@ class LearnGame extends BasketballGame{
         } else if (LEVEL == 4){
           BASKETBALL_GAME = new LearnGame(30);
         } else {
-          BASKETBALL_GAME = new TrickShotGame(8);
+          BASKETBALL_GAME = new TrickShotGame(15);
         }
       }
     }
