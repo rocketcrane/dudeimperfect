@@ -7,6 +7,13 @@
 class TrickShotGame extends BasketballGame{
   constructor(canonicalDist) { // the ball mass should be constant
     super(canonicalDist);
+    this.blockColor = new Array(5);
+    for(let i = 0; i < 5; i++){
+      this.blockColor[i] = new Array(3);
+      for(let j = 0; j < 3; j++){
+        this.blockColor[i][j] = random(255);
+      }
+    }
   }
   
   update() {
@@ -23,36 +30,49 @@ class TrickShotGame extends BasketballGame{
   }
   
   setObstacle(){
+    if(LEVELUP){
+      this.changeColor();
+    }
     if(this.canonicalDist == 15){
       //console.log('canonicaldist = ' + this.canonicalDist);
-      this.rectObstalce(width/2+HSCALE*9, width/2+HSCALE*10, 0, height/2);
+      this.rectObstalce(width/2+HSCALE*9, width/2+HSCALE*10, -VSCALE, height/2, 1);
     }else if(this.canonicalDist == 20) {
       //console.log('canonicaldist = ' + this.canonicalDist);
-      this.rectObstalce(width/2+HSCALE*12, width/2+HSCALE*13, 0, VSCALE*3.2);
-      this.rectObstalce(width/2+HSCALE*2, width/2+HSCALE*12, VSCALE*4, VSCALE*4.5);
+      this.rectObstalce(width/2+HSCALE*12, width/2+HSCALE*13, -VSCALE, VSCALE*3.2, 1);
+      this.rectObstalce(width/2+HSCALE*2, width/2+HSCALE*12, VSCALE*4, VSCALE*4.5, 2);
     }else if(this.canonicalDist == 25) {
       //console.log('canonicaldist = ' + this.canonicalDist);
-      this.rectObstalce(width/2-HSCALE*7.9, width/2-HSCALE*6.9, VSCALE*4, height*7/8);
-      this.rectObstalce(width/2-HSCALE*2.7, width/2-HSCALE*1.7, VSCALE*2.5, height*7/8);
-      this.rectObstalce(width/2+HSCALE*2.5, width/2+HSCALE*3.5, VSCALE*1.5, height*7/8);
-      this.rectObstalce(width/2+HSCALE*7.7, width/2+HSCALE*8.7, VSCALE*1.5, height*7/8);
-      this.rectObstalce(width/2+HSCALE*7.7, width/2+HSCALE*8.7, VSCALE*(-10), height*1/8);
+      this.rectObstalce(width/2-HSCALE*7.9, width/2-HSCALE*6.9, VSCALE*4, height*7/8, 1);
+      this.rectObstalce(width/2-HSCALE*2.7, width/2-HSCALE*1.7, VSCALE*2.5, height*7/8, 2);
+      this.rectObstalce(width/2+HSCALE*2.5, width/2+HSCALE*3.5, VSCALE*1.5, height*7/8, 3);
+      this.rectObstalce(width/2+HSCALE*7.7, width/2+HSCALE*8.7, VSCALE*1.5, height*7/8, 4);
+      this.rectObstalce(width/2+HSCALE*7.7, width/2+HSCALE*8.7, VSCALE*(-10), height*1/8, 5);
     }else {
       //console.log('canonicaldist = ' + this.canonicalDist);
-      this.rectObstalce(width/6.5, width/5.5, 0, height/4);
+      this.rectObstalce(width/6.5, width/5.5, 0, height/4, 1);
+    }
+  }
+  
+  changeColor(){
+    let i;
+    for(i = 0; i < 5; i++){
+      for(let j = 0; j < 3; j++){
+        this.blockColor[i][j] = random(255);
+      }
     }
     
   }
   
-  rectObstalce(x1, x2, y1, y2) {
+  rectObstalce(x1, x2, y1, y2, num) {
     // 4 smaller rectangles as boundaries for a large rectangle
     let thickness = 20;
     // drawImage();
     
     // noStroke();
-    fill(255);
+    fill(this.blockColor[num-1][0], this.blockColor[num-1][1], this.blockColor[num-1][2]);
+    //console.log(num+" color is ("+this.blockColor[num-1][0]+", "+this.blockColor[num-1][1]+", "+this.blockColor[num-1][2]+")");
     rectMode(CORNERS);
-    rect(x1, y1, x2, y2);
+    rect(x1, y1, x2, y2, 10);
     //let left = rect(x1, y1, x1 + thickness, y2);
     //let bottom = rect(x1, y2 -thickness, x2, y2);
     //let right = rect(x2 - thickness, y1, x2, y2);
