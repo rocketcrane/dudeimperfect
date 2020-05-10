@@ -21,6 +21,8 @@ class Basketball{
     this.veloc_proj = this.force*this.time_force_applied/this.mass;
     // initial projectile velocity, horizontal velocity = cos0 * v, vertical velocity = sin0 * v
     this.vel = createVector(cos(radian)*this.veloc_proj, sin(radian)*this.veloc_proj);
+    this.bounce = true;
+    this.liveBall = true;
   }
   
   move() {
@@ -28,6 +30,7 @@ class Basketball{
     this.update();
     this.x += canonicalToActual(this.vel.x/FPS, HSCALE);
     this.y += canonicalToActual(this.vel.y/FPS, VSCALE);
+    
   }
   
   accelerate(ddx, ddy) {
@@ -40,9 +43,19 @@ class Basketball{
     this.trueX = this.x + WALL;
     this.trueY = FLOOR - this.y; 
     
-    // Bounce off floor
-    if (this.y <= this.radius) {
+    // Allow bounce every 1/8 second
+    if(frameCount % 10 == 0){
+       this.bounce = true;
+    }
+    
+    // Bounce off floor with diminished velocity
+    if(this.y <= this.radius && this.bounce) {
+      this.vel.x *= 0.9;
       this.vel.y *= -0.8;
+      this.bounce = false;
+    }else if (this.y <= this.radius){
+      this.y = this.radius;
+      this.vel.y = 0;
     }
   }
   

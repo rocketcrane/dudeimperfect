@@ -9,12 +9,75 @@ class TrickShotGame extends BasketballGame{
     super(canonicalDist);
   }
   
+  update() {
+    this.updateGame();
+    this.updateInput();
+    this.setObstacle();
+    if (IS_MOVING) {
+      this.proj.move();
+      this.hitBackboard();
+      this.hitBasket();
+    }
+    this.proj.display();
+    this.displayText();
+  }
+  
+  setObstacle(){
+    if(this.canonicalDist == 8){
+      console.log('canonicaldist = ' + this.canonicalDist);
+      this.rectObstalce(width/2, width/2+HSCALE*10, height/2, height/2+VSCALE*10);
+    }else if(this.canonicalDist == 12) {
+      console.log('canonicaldist = ' + this.canonicalDist);
+      this.rectObstalce(width/4, width/2, height/4, height/2);
+    }else if(this.canonicalDist == 17) {
+      console.log('canonicaldist = ' + this.canonicalDist);
+      this.rectObstalce(width/5, width/2, height/6, height/2);
+    }else {
+      console.log('canonicaldist = ' + this.canonicalDist);
+      this.rectObstalce(width/6, width/3, height/5, height/4);
+    }
+    
+  }
+  
+  rectObstalce(x1, x2, y1, y2) {
+    // 4 smaller rectangles as boundaries for a large rectangle
+    let thickness = 10;
+    // drawImage();
+    
+    // noStroke();
+    //rectMode(CORNERS);
+    //let top = rect(x1, y1, x2, y1 + thickness);
+    //let left = rect(x1, y1, x1 + thickness, y2);
+    //let bottom = rect(x1, y2 -thickness, x2, y2);
+    //let right = rect(x2 - thickness, y1, x2, y2);
+    
+    let isAtTop = this.proj.trueX >= x1 && this.proj.trueX <= x2 && this.proj.trueY >= y1 && this.proj.trueY <= y1 + thickness;
+    let isAtLeft = this.proj.trueX >= x1 && this.proj.trueX <= (x1 + thickness) && this.proj.trueY >= y1 && this.proj.trueY <= y2;
+    let isAtBottom = this.proj.trueX >= x1 && this.proj.trueX <= x2 && this.proj.trueY >= (y2 - thickness) && this.proj.trueY <= y2;
+    let isAtRight = this.proj.trueX >= (x2 - thickness) && this.proj.trueX <= x2 && this.proj.trueY >= y1 && this.proj.trueY <= y2;
+  
+    if (isAtTop && isAtBottom) {
+      console.log('top/bottom');
+      this.proj.vel.y *= -1;
+    }
+    if (this.proj.vel.x > 0 && isAtLeft && isAtRight) {
+      console.log('left/right');
+      this.proj.vel.x *= -1;
+    }
+    //console.log('rectObstacle ' + x1 + x2 + y1 + y2);
+    if (DEBUG) {
+      drawRect(x1, y1, x2, y1 + thickness);
+      drawRect(x1, y1, x1 + thickness, y2);
+      drawRect(x1, y2 -thickness, x2, y2);
+      drawRect(x2 - thickness, y1, x2, y2);
+    }
+  }
+  
   proceed() {
     if (LEVELUP) {
       if (!IS_MOVING) {  //can I remove this?
         LEVELUP = false;
         LEVEL = LEVEL % 8 + 1;
-        console.log(LEVEL);
         if (LEVEL == 6) {
           BASKETBALL_GAME = new TrickShotGame(12);
         } else if (LEVEL == 7) {
@@ -67,6 +130,4 @@ class TrickShotGame extends BasketballGame{
       LEVELUP = true;
     }
   }
-  
-  
 }
