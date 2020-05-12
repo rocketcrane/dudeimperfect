@@ -54,7 +54,6 @@ function resizeImgs() {
   star3.resize(width/6, height/8);
   
   //Menu Items
-  //IMAGE INITIALIZATIONS
   tutorialImage1.resize(displayWidth, displayHeight);
   playImage1.resize(displayWidth, displayHeight);
   mainImage.resize(displayWidth, displayHeight);
@@ -64,9 +63,9 @@ function resizeImgs() {
   storyMode.resize(250,150);
   trickshotMode.resize(250,150);
   
-  basketballModePassive.resize(300,200);
-  trickshotModePassive.resize(300,200);
-  golfModePassive.resize(300,200);
+  basketballModePassive.resize(0,200);
+  trickshotModePassive.resize(0,200);
+  golfModePassive.resize(0,200);
   
   //Tutorial
   prevButton.resize(80,80);

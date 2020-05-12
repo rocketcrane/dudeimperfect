@@ -1,7 +1,118 @@
+/*
+ *  BASKETBALL SPECIFIC
+ */
+function newBasketballGame(lvl) {
+  //screenState = "Basketball";
+  score = 0;
+  canFire = true;
+  win = false;
+  friction = 0.15;
+  slidingFriction = 0.0001;
+  balls = [];
+  walls = [];
+  walls.push(new Wall(width*14/16, height*23/64, width/29, width/10)); //right backboard
+  walls.push(new Wall(width*55/64, height/2, width/35, width/50)); //right choke
+  walls.push(new Wall(width*52/64, height/2, width/90, width/50)); //right rim
+  goal = new Goal(width*53/64, height/2, width/35, width/50);
+  walls.push(new Wall(width*11/128, height*23/64, width/29, width/10)); //left backboard
+  walls.push(new Wall(width*14/128, height/2, width/35, width/50)); //left choke
+  walls.push(new Wall(width*22/128, height/2, width/90, width/50)); //left rim
+  level = lvl;
+
+  const backgroundLength = 41;
+  switch(level) { //this is problematic. no distances here
+  case 1:
+    percentDist = 5/backgroundLength;
+    //distance = width*4/6; 
+    lives = 5;
+    break;
+  case 2:
+    percentDist = 9/backgroundLength;
+    //distance = width*9/16;
+    lives = 5;
+    break;
+  case 3:
+    percentDist = 15/backgroundLength;
+    //distance = width*7/16;
+    lives = 5;
+    break;
+  case 4:
+    percentDist = 25/backgroundLength;
+    //distance = width/5;
+    lives = 5;
+    break;
+  }
+}
+
+function shootBB() {
+  balls.push(new Basketball(hooploc - distance, maxY - width/8, forceSlider.sliderValue, 45));
+  //balls.push(new Basketball(mix + distance, maxY - width/8, forceSlider.sliderValue, angleSlider.sliderValue));
+  canFire = false;
+  fireTimer = 120;
+  lives--;
+}
+
+function bbCanFire() {
+  if (canFire) {
+    image(imgBB, hooploc - distance, maxY - width/8);
+    //image(imgBB, minX + distance, maxY - width/8);
+  } else if (fireTimer >= 0) {
+    fireTimer--;
+    if (lives > 0 && fireTimer == 0) {
+      canFire = true;
+    }
+  }
+}
+
+function bbVisuals() {
+  updateScale();
+  image(bbBg, width/2, height/2);
+  drawVerticalDist(hooploc + width/20, floor, floor - rimHeight);
+  drawVerticalDist(roboloc - width/20, floor, floor - playerHeight);
+  drawHorizontalDist(floor, roboloc, hooploc);
+  if (win) {
+    canFire = false;
+    image(bbBgWin, width/2, height/4);
+    image(star1, width/2, height*3/8);
+  }else{
+    switch(level) {
+      case 1:
+        image(bbLvl1, width/2, height/4);
+        break;
+      case 2:
+        image(bbLvl2, width/2, height/4);
+        break;
+      case 3:
+        image(bbLvl3, width/2, height/4);
+        break;
+      case 4:
+        image(bbLvl4, width/2, height/4);
+        break;
+    }
+  }
+  for (let i = 0; i < lives; i++) {
+      image(imgBB, width*3/8 + i*width*1/50, height*6/16);
+    }  
+}
+
+function showButtons() {
+  if (win) {
+    image(nextLevel, width*5/8, height*7/8);
+    image(reset, width*3/8, height*7/8);
+  } else {
+    if (canFire) {
+      image(bbLaunch, width*5/8, height*6/16);
+    } else {
+      image(bbLaunchGrey, width*5/8, height*6/16);
+    }
+    //image(reset, width*3/8, height*7/8);
+  }
+}
+
 function Basketball(x, y, force, angle) {
   this.pos = createVector(x, y);
   force /= 10; //what??
-  this.vel = createVector(cos(angle)*force, -sin(angle)*force); 
+  this.vel = createVector(cos(angle)*force*HSCALE/(width*0.034375), -sin(angle)*force*VSCALE/(width*0.034375));
   this.acc = createVector(0, 0);
   this.rad = 23;
   this.mass = 10; //yeah?
@@ -27,12 +138,6 @@ function Basketball(x, y, force, angle) {
     let bounced = false;
     if (this.isGrounded) {
       this.vel.x *= 1 - slidingFriction;
-    }
-    if (this.pos.y < minY + this.rad) {
-      this.pos.y = minY + this.rad;
-      this.vel.x *= 1 - friction/10;
-      this.vel.y *= -(1 - friction);
-      bounced = true;
     }
     if (this.pos.y > maxY - this.rad) {
       this.pos.y = maxY - this.rad;
