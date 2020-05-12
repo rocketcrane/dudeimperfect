@@ -24,10 +24,14 @@ let canFire = false, fireTimer = 0;
 let minX, maxX, minY, maxY;
 let bbBounce1, bbBounce2;
 let win = false;
-let distance;
+//let distance;
 let level, score, lives;
 let force;
 let angle;
+let fontsize;
+const backgroundLength = 41;
+let hooploc, distance, percentDist, rimHeight, playerHeight;
+let HSCALE, VSCALE;
 
 function preload() {
   imgBB = loadImage("assets/basketball.png");
@@ -63,6 +67,7 @@ function setup() {
   textSize(20);
   textAlign(CENTER);
   resizeImgs();
+  updateScale();
   
   forceSlider = new Slider(width/2 - width/14, height/4, width/7, 0, 200, 5, false, false, false);
   //angleSlider = new Slider(width/2 - width/14, height/4, width/7, -90, 90, 10, false, false, false);
@@ -76,6 +81,7 @@ function draw() {
     text("title", width/2, height/2);
     fill(255);
   } else if (curr == "basketball") {
+    fontsize = width*0.001;
     bbVisuals();
     bbCanFire();
     updateWorld();
