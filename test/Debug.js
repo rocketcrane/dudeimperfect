@@ -12,3 +12,15 @@ function showEdges() {
   fill(255);
   strokeWeight(0);
 }
+
+function showWalls(x, y, w, h) {
+  
+  strokeWeight(3);
+  fill(255, 0, 0);
+  line(x, y, x+w, y);
+  line(x+w, y, x+w, y+h);
+  line(x, y+h, x+w, y+h);
+  line(x, y, x, y+h);
+  fill(255);
+  strokeWeight(0);
+}

@@ -103,7 +103,7 @@ function mouseReleased() {
 }
 
 function keyPressed() {
-  if (key === 'f') {
+  if (key === 'f') { // shoot/next
     if (canFire) {
       shootBB();
     } else if (win) {
@@ -111,15 +111,15 @@ function keyPressed() {
       newBasketballGame(level);
     }
   } 
-  if (key === 'r') {
+  if (key === 'r') { //reset round
     if (!win) {
       newBasketballGame(level);
     }
-  } else if (key === 'g') {
+  } else if (key === 'g') { //restart game
     newBasketballGame(1);
-  } else if (key === 'j') {
+  } else if (key === 'j') { //play sound
     bbBounce1.play();
-  } else if (key === 't') {
+  } else if (key === 't') { //next level
     level++;
     newBasketballGame(level);
   }

@@ -43,17 +43,17 @@ function newBasketballGame(lvl) {
   slidingFriction = 0.0001;
   balls = [];
   walls = [];
-  walls.push(new Wall(width*14/16, height*23/64, width/29, width/10));
-  walls.push(new Wall(width*55/64, height/2, width/35, width/50));
-  walls.push(new Wall(width*52/64, height/2, width/90, width/50));
+  walls.push(new Wall(width*14/16, height*23/64, width/29, width/10)); //right backboard
+  walls.push(new Wall(width*55/64, height/2, width/35, width/50)); //right choke
+  walls.push(new Wall(width*52/64, height/2, width/90, width/50)); //right rim
   goal = new Goal(width*53/64, height/2, width/35, width/50);
-  walls.push(new Wall(width*11/128, height*23/64, width/29, width/10));
-  walls.push(new Wall(width*14/128, height/2, width/35, width/50));
-  walls.push(new Wall(width*22/128, height/2, width/90, width/50));
+  walls.push(new Wall(width*11/128, height*23/64, width/29, width/10)); //left backboard
+  walls.push(new Wall(width*14/128, height/2, width/35, width/50)); //left choke
+  walls.push(new Wall(width*22/128, height/2, width/90, width/50)); //left rim
   level = lvl;
-  switch(level) {
+  switch(level) { //this is problematic. no distances here
   case 1:
-    distance = width*4/6;
+    distance = width*4/6; 
     lives = 5;
     break;
   case 2:

@@ -7,9 +7,11 @@ function Wall(x, y, w, h) {
   this.h = h;
   this.show = function() {
     if (DEBUG) {
+      rectMode(CORNER);
       fill(0);
       rect(this.x1, this.y1, this.w, this.h);
       fill(255);
+      rectMode(CENTER);
     }
   };
   // Rescaling

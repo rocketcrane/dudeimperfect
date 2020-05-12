@@ -1,10 +1,10 @@
 function Basketball(x, y, force, angle) {
   this.pos = createVector(x, y);
-  force /= 100;
-  this.vel = createVector(cos(angle)*force, -sin(angle)*force);
+  force /= 100; //what??
+  this.vel = createVector(cos(angle)*force, -sin(angle)*force); 
   this.acc = createVector(0, 0);
   this.rad = 25;
-  this.mass = 10;
+  this.mass = 10; //yeah?
   this.isGrounded = false;
   this.angle = 0;
   this.show = function() {
@@ -136,14 +136,14 @@ function Basketball(x, y, force, angle) {
 
 // Code obtained from p5js.org
 function rotateVel(velocity, angle) {
-  var rotatedVelocities = {
-  x: 
-  velocity.x * cos(angle) - velocity.y * sin(angle), 
-  y: 
-  velocity.x * sin(angle) + velocity.y * cos(angle)
-};
-rotatedVelocities = createVector(rotatedVelocities.x, rotatedVelocities.y);
-return rotatedVelocities;
+  let rotatedVelocities = {
+    x: 
+    velocity.x * cos(angle) - velocity.y * sin(angle), 
+    y: 
+    velocity.x * sin(angle) + velocity.y * cos(angle)
+  };
+  rotatedVelocities = createVector(rotatedVelocities.x, rotatedVelocities.y);
+  return rotatedVelocities;
 }
 
 function resolveCollision(particle, otherParticle) {
@@ -168,29 +168,29 @@ function resolveCollision(particle, otherParticle) {
     const u2 = rotateVel(otherParticle.vel, angle);
 
     // Velocity after 1d collision equation
-    var v1 = {
-    x: 
-    u1.x * (m1 - m2) / (m1 + m2) + u2.x * 2 * m2 / (m1 + m2), 
-    y: 
-    u1.y
-  };
-  v1 = createVector(v1.x * (1 - friction), v1.y * (1 - friction));
-  var v2 = {
-  x: 
-  u2.x * (m1 - m2) / (m1 + m2) + u1.x * 2 * m2 / (m1 + m2), 
-  y: 
-  u2.y
-};
-v2 = createVector(v2.x * (1 - friction), v2.y * (1 - friction));
+    let v1 = {
+      x: 
+      u1.x * (m1 - m2) / (m1 + m2) + u2.x * 2 * m2 / (m1 + m2), 
+      y: 
+      u1.y
+    };
+    v1 = createVector(v1.x * (1 - friction), v1.y * (1 - friction));
+    let v2 = {
+      x: 
+      u2.x * (m1 - m2) / (m1 + m2) + u1.x * 2 * m2 / (m1 + m2), 
+      y: 
+      u2.y
+    };
+    v2 = createVector(v2.x * (1 - friction), v2.y * (1 - friction));
 
-// Final velocity after rotating axis back to original location
-const vFinal1 = rotateVel(v1, -angle);
-const vFinal2 = rotateVel(v2, -angle);
-
-// Swap particle velocities for realistic bounce effect
-particle.vel.x = vFinal1.x;
-particle.vel.y = vFinal1.y;
-otherParticle.vel.x = vFinal2.x;
-otherParticle.vel.y = vFinal2.y;
-}
+    // Final velocity after rotating axis back to original location
+    const vFinal1 = rotateVel(v1, -angle);
+    const vFinal2 = rotateVel(v2, -angle);
+    
+    // Swap particle velocities for realistic bounce effect
+    particle.vel.x = vFinal1.x;
+    particle.vel.y = vFinal1.y;
+    otherParticle.vel.x = vFinal2.x;
+    otherParticle.vel.y = vFinal2.y;
+  }
 }

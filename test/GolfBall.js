@@ -93,7 +93,7 @@ function GolfBall(x, y) {
     } else {
       this.isGrounded = false;
     }
-  }
+  };
 
   this.collideCircle = function(other) {
     var distance = sqrt(((this.pos.x - other.pos.x) * (this.pos.x - other.pos.x)) + ((this.pos.y - other.pos.y) * (this.pos.y - other.pos.y)));
@@ -150,29 +150,29 @@ function resolveCollision(particle, otherParticle) {
     const u2 = rotateVel(otherParticle.vel, angle);
 
     // Velocity after 1d collision equation
-    var v1 = {
+    let v1 = {
     x: 
     u1.x * (m1 - m2) / (m1 + m2) + u2.x * 2 * m2 / (m1 + m2), 
     y: 
     u1.y
-  };
-  v1 = createVector(v1.x * (1 - friction), v1.y * (1 - friction));
-  var v2 = {
-  x: 
-  u2.x * (m1 - m2) / (m1 + m2) + u1.x * 2 * m2 / (m1 + m2), 
-  y: 
-  u2.y
-};
-v2 = createVector(v2.x * (1 - friction), v2.y * (1 - friction));
-
-// Final velocity after rotating axis back to original location
-const vFinal1 = rotateVel(v1, -angle);
-const vFinal2 = rotateVel(v2, -angle);
-
-// Swap particle velocities for realistic bounce effect
-particle.vel.x = vFinal1.x;
-particle.vel.y = vFinal1.y;
-otherParticle.vel.x = vFinal2.x;
-otherParticle.vel.y = vFinal2.y;
-}
+    };
+    v1 = createVector(v1.x * (1 - friction), v1.y * (1 - friction));
+    let v2 = {
+    x: 
+    u2.x * (m1 - m2) / (m1 + m2) + u1.x * 2 * m2 / (m1 + m2), 
+    y: 
+    u2.y
+    };
+    v2 = createVector(v2.x * (1 - friction), v2.y * (1 - friction));
+  
+    // Final velocity after rotating axis back to original location
+    const vFinal1 = rotateVel(v1, -angle);
+    const vFinal2 = rotateVel(v2, -angle);
+    
+    // Swap particle velocities for realistic bounce effect
+    particle.vel.x = vFinal1.x;
+    particle.vel.y = vFinal1.y;
+    otherParticle.vel.x = vFinal2.x;
+    otherParticle.vel.y = vFinal2.y;
+  }
 }
