@@ -64,8 +64,8 @@ function setup() {
   textAlign(CENTER);
   resizeImgs();
   
-  forceSlider = new Slider(width/2 - width/14, height*27/32, width/7, 0, 200, 5, false, false, false);
-  angleSlider = new Slider(width/2 - width/14, height*30/32, width/7, -90, 90, 10, false, false, false);
+  forceSlider = new Slider(width/2 - width/14, height/4, width/7, 0, 200, 5, false, false, false);
+  //angleSlider = new Slider(width/2 - width/14, height/4, width/7, -90, 90, 10, false, false, false);
 }
 
 function draw() {
@@ -82,12 +82,12 @@ function draw() {
     showButtons();
     
     textSize(20);
-    text("Force (N)", width/2, height*28/32);
+    text("Force (N)", width/2, height*5/16);
     forceSlider.move();
     forceSlider.display();
-    text("Angle (°)", width/2, height*31/32);
-    angleSlider.move();
-    angleSlider.display();
+    //text("Angle (°)", width/2, height*31/32);
+    //angleSlider.move();
+    //angleSlider.display();
     if (DEBUG) {
       debug();
     }

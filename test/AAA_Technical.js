@@ -51,28 +51,34 @@ function newBasketballGame(lvl) {
   walls.push(new Wall(width*14/128, height/2, width/35, width/50)); //left choke
   walls.push(new Wall(width*22/128, height/2, width/90, width/50)); //left rim
   level = lvl;
+  const backgroundLength = 41;
   switch(level) { //this is problematic. no distances here
   case 1:
-    distance = width*4/6; 
+    distance = 5/backgroundLength * width;
+    //distance = width*4/6; 
     lives = 5;
     break;
   case 2:
-    distance = width*9/16;
+    distance = 9/backgroundLength * width;
+    //distance = width*9/16;
     lives = 5;
     break;
   case 3:
-    distance = width*7/16;
+    distance = 15/backgroundLength * width;
+    //distance = width*7/16;
     lives = 5;
     break;
   case 4:
-    distance = width/5;
+    distance = 30/backgroundLength * width;
+    //distance = width/5;
     lives = 5;
     break;
   }
 }
 
 function shootBB() {
-  balls.push(new Basketball(minX + distance, maxY - width/8, forceSlider.sliderValue, angleSlider.sliderValue));
+  balls.push(new Basketball(width*27/32 - distance, maxY - width/8, forceSlider.sliderValue, 60));
+  //balls.push(new Basketball(mix + distance, maxY - width/8, forceSlider.sliderValue, angleSlider.sliderValue));
   canFire = false;
   fireTimer = 120;
   lives--;
@@ -80,7 +86,8 @@ function shootBB() {
 
 function bbCanFire() {
   if (canFire) {
-    image(imgBB, minX + distance, maxY - width/8);
+    image(imgBB, width*27/32 - distance, maxY - width/8);
+    //image(imgBB, minX + distance, maxY - width/8);
   } else if (fireTimer >= 0) {
     fireTimer--;
     if (lives > 0 && fireTimer == 0) {
