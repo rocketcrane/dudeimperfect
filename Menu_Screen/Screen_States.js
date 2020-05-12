@@ -16,7 +16,6 @@ function mainMenu() {
   //help
   image(helpButton,width/2, height/1.29);
   helpButton.resize(150,150);
-  
 }
 
 function playMenu() {
@@ -45,4 +44,12 @@ function storyMode(){
 
 function trickshotMode() {
 
+}
+
+function tutorialnew(){
+  clear();
+  image(mainImage, width/2, height/2);
+  
+  image(tutorial1, width/2, height/2);
+  
 }
