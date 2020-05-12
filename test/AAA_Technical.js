@@ -2,7 +2,7 @@ function updateWorld() {
   if (balls[0]) {
     for (let i = 0; i < balls.length; i++) {
       ball = balls[i];
-      let g = createVector(0, gravity);
+      let g = createVector(0, gravity); //0.25. -9.8m/s/s/FPS. 30
       if (!ball.isGrounded) {
         ball.applyForce(g);
       }
@@ -56,30 +56,25 @@ function newBasketballGame(lvl) {
   switch(level) { //this is problematic. no distances here
   case 1:
     percentDist = 5/backgroundLength;
-    //distance = width*4/6; 
     lives = 5;
     break;
   case 2:
     percentDist = 9/backgroundLength;
-    //distance = width*9/16;
     lives = 5;
     break;
   case 3:
     percentDist = 15/backgroundLength;
-    //distance = width*7/16;
     lives = 5;
     break;
   case 4:
     percentDist = 25/backgroundLength;
-    //distance = width/5;
     lives = 5;
     break;
   }
 }
 
 function shootBB() {
-  balls.push(new Basketball(hooploc - distance, maxY - width/8, forceSlider.sliderValue, 60));
-  //balls.push(new Basketball(mix + distance, maxY - width/8, forceSlider.sliderValue, angleSlider.sliderValue));
+  balls.push(new Basketball(hooploc - distance, floor - playerHeight, forceSlider.sliderValue, 60));
   canFire = false;
   fireTimer = 120;
   lives--;
@@ -87,8 +82,7 @@ function shootBB() {
 
 function bbCanFire() {
   if (canFire) {
-    image(imgBB, hooploc - distance, maxY - width/8);
-    //image(imgBB, minX + distance, maxY - width/8);
+    image(imgBB, hooploc - distance, floor - playerHeight);
   } else if (fireTimer >= 0) {
     fireTimer--;
     if (lives > 0 && fireTimer == 0) {

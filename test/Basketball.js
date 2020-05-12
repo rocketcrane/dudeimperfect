@@ -1,7 +1,7 @@
 function Basketball(x, y, force, angle) {
-  this.pos = createVector(x, y);
+  this.pos = createVector(x, y); 
   force /= 10; //what??
-  this.vel = createVector(cos(angle)*force, -sin(angle)*force); 
+  this.vel = createVector(cos(angle)*force*HSCALE/55, -sin(angle)*force*VSCALE/55); 
   this.acc = createVector(0, 0);
   this.rad = 23;
   this.mass = 10; //yeah?
@@ -14,7 +14,7 @@ function Basketball(x, y, force, angle) {
   this.update = function() {
     this.edges();
     this.vel.add(this.acc.div(iterations));
-    this.vel.limit(12.5);
+    //this.vel.limit(12.5);
     this.pos.add(this.vel);
     this.acc.mult(0);
   };
@@ -28,12 +28,12 @@ function Basketball(x, y, force, angle) {
     if (this.isGrounded) {
       this.vel.x *= 1 - slidingFriction;
     }
-    if (this.pos.y < minY + this.rad) {
-      this.pos.y = minY + this.rad;
-      this.vel.x *= 1 - friction/10;
-      this.vel.y *= -(1 - friction);
-      bounced = true;
-    }
+    //if (this.pos.y < minY + this.rad) {
+    //  this.pos.y = minY + this.rad;
+    //  this.vel.x *= 1 - friction/10;
+    //  this.vel.y *= -(1 - friction);
+    //  bounced = true;
+    //}
     if (this.pos.y > maxY - this.rad) {
       this.pos.y = maxY - this.rad;
       this.vel.x *= 1 - friction/10;

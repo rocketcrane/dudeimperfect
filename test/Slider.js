@@ -66,7 +66,6 @@ function Slider(_x, _y, _length, _startValue, _endValue, _varerval, _vars, _stic
       if(this.showValues){
         counter ++; 
         text( nfc(counter * this.varerval,1,1), i + this.xStart, this.y + 30);
-        
       }
     }
     line(this.xStart, this.y + 12, this.xStart, this.y - 12); // draw first line (optional) 

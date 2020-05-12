@@ -14,11 +14,11 @@ let forceSlider, angleSlider;
 /*
  *  GAME STUFF
  */
-const DEBUG = true;
+const DEBUG = false;
 
 let balls = [], walls = [], goal;
 let iterations = 10;
-const gravity = 0.25;
+const gravity = 0.3267; // 9.8/30
 let friction, slidingFriction, tolerance = 0.25;
 let canFire = false, fireTimer = 0;
 let minX, maxX, minY, maxY;
@@ -68,8 +68,7 @@ function setup() {
   textAlign(CENTER);
   resizeImgs();
   updateScale();
-  
-  forceSlider = new Slider(width/2 - width/14, height/4, width/7, 0, 20, 1, false, false, false);
+  forceSlider = new Slider(width/2 - width/5/2, height/4, width/5, 0, 20, 1, false, false, false);
   //angleSlider = new Slider(width/2 - width/14, height/4, width/7, -90, 90, 10, false, false, false);
 }
 
@@ -86,12 +85,14 @@ function draw() {
     bbCanFire();
     updateWorld();
     showButtons();
-    
     textSize(20);
-    text("Force (N)", width/2, height*5/16);
+    
     strokeWeight(2);
     forceSlider.move();
-    forceSlider.display();
+    if(!win){
+      text("Force (N)", width/2, height*5/16);
+      forceSlider.display();
+    }
     //text("Angle (°)", width/2, height*31/32);
     //angleSlider.move();
     //angleSlider.display();
