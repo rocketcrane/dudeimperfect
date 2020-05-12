@@ -14,19 +14,36 @@ class TrickShotGame extends BasketballGame{
         this.blockColor[i][j] = random(255);
       }
     }
+    
+    this.option1 = createButton('Option1');
+    this.option1.mousePressed(this.newAttempt);
+    this.option2 = createButton('Option2');
+    this.option2.mousePressed(this.newAttempt);
+    this.option3 = createButton('Option3');
+    this.option3.mousePressed(this.newAttempt);
+    
   }
   
-  update() {
-    this.updateGame();
-    this.updateInput();
+  updateSpecific() {
     this.setObstacle();
-    if (IS_MOVING) {
-      this.proj.move();
-      this.hitBackboard();
-      this.hitBasket();
+  }
+  
+  updateSpecificInput(){
+    if(this.canonical == 15){
+
+    }else if(this.canonical == 20){
+      
+    }else if(this.canonical == 35){
+      
+    }else{
+      
     }
-    this.proj.display();
-    this.displayText();
+    this.option1.position(width*2/5, height/8);
+    this.option1.size(width/12, width/18);
+    this.option2.position(width*2/5, height*2/8);
+    this.option2.size(width/12, width/18);
+    this.option3.position(width*2/5, height*3/8);
+    this.option3.size(width/12, width/18);
   }
   
   setObstacle(){
@@ -35,10 +52,10 @@ class TrickShotGame extends BasketballGame{
     }
     if(this.canonicalDist == 15){
       //console.log('canonicaldist = ' + this.canonicalDist);
-      this.rectObstalce(width/2+HSCALE*9, width/2+HSCALE*10, -VSCALE, height/2, 1);
+      this.rectObstalce(width/2+HSCALE*9, width/2+HSCALE*10, VSCALE*(-10), height/2, 1);
     }else if(this.canonicalDist == 20) {
       //console.log('canonicaldist = ' + this.canonicalDist);
-      this.rectObstalce(width/2+HSCALE*12, width/2+HSCALE*13, -VSCALE, VSCALE*3.2, 1);
+      this.rectObstalce(width/2+HSCALE*12, width/2+HSCALE*13, VSCALE*(-10), VSCALE*3.2, 1);
       this.rectObstalce(width/2+HSCALE*2, width/2+HSCALE*12, VSCALE*4, VSCALE*4.5, 2);
     }else if(this.canonicalDist == 25) {
       //console.log('canonicaldist = ' + this.canonicalDist);
@@ -49,7 +66,7 @@ class TrickShotGame extends BasketballGame{
       this.rectObstalce(width/2+HSCALE*7.7, width/2+HSCALE*8.7, VSCALE*(-10), height*1/8, 5);
     }else {
       //console.log('canonicaldist = ' + this.canonicalDist);
-      this.rectObstalce(width/6.5, width/5.5, 0, height/4, 1);
+      this.rectObstalce(width/6.5, width/5.5, VSCALE*(-10), height/4, 1);
     }
   }
   

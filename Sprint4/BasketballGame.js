@@ -11,17 +11,6 @@ class BasketballGame{
     this.percentDist = this.canonicalDist / this.canonicalFullCourt; // percentage of full court length (width of background) the level represents
     this.SHOOTINGTIMER = 0;
     
-    // CREATE INPUT FIELDS
-    this.forceInput = createInput();
-    this.forceInput.size(100, 50);
-    this.forceInput.style('font-size', '24px');
-    // this.angleInput = createInput();
-    // this.angleInput.size(100, 50);
-    // this.angleInput.style('font-size', '24px');
-
-    // CREATE BUTTONS
-    this.enter = createButton('Enter');
-    this.enter.mousePressed(this.newAttempt);
     this.reset = createButton('Reset');
     this.reset.mousePressed(this.resetAttempt);
     this.nextLevel = createButton('Next Level');
@@ -41,6 +30,7 @@ class BasketballGame{
   update() {
     this.updateGame();
     this.updateInput();
+    this.updateSpecifc();
     if (IS_MOVING) {
       this.proj.move();
       this.hitBackboard();
@@ -94,21 +84,22 @@ class BasketballGame{
       drawImageOnFloor(imgBasketballPlayer, WALL, this.PLAYERHEIGHT);
     }
   }
+  
+  updateSpecifc(){
+  }
 
   updateInput() {
 
-    this.forceInput.position(width*5/32, height*3/13);
-    this.forceInput.size(width/12, width/32);
-    //this.angleInput.position(width/12, this.forceInput.y + this.forceInput.height + height/16);
-    //this.angleInput.size(width/12, width/32);
-    this.enter.position(width*2/5, height/8);
-    this.enter.size(width/12, width/18);
     this.reset.position(width*2/5, height*2/8);
     this.reset.size(width/12, width/18);
     this.nextLevel.position(width*11/21, height/8);
     this.nextLevel.size(width/12, width/18);
     this.debug.position(width*11/21, height*2/8);
     this.debug.size(width/12, width/18);
+    this.updateSpecificInput();
+  }
+  
+  updateSpecificInput(){
   }
 
   hitBackboard() {

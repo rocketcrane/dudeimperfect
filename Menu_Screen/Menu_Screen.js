@@ -14,6 +14,8 @@ function preload() {
   helpScreen = loadImage('assets/tutorialScreen.jpg');
   helpBackground = loadImage('assets/helpBackground1.jpg');
   whiteHome = loadImage('assets/whiteHome.png');
+  tutorial1 = loadImage('assets/tutorial1.png');
+  
 }
 
 function setup() {
@@ -24,6 +26,7 @@ function setup() {
   mainImage.resize(displayWidth, displayHeight);
   playImage.resize(displayWidth, displayHeight);
   helpBackground.resize(displayWidth, displayHeight);
+  tutorial1.resize(width/2,0);
   
   playButton.resize(150,150);
   helpButton.resize(150,150);
@@ -46,7 +49,8 @@ function draw() {
   if (screenState == 0) {
     mainMenu();
   } else if (screenState == 1) {
-    playMenu();
+    tutorialnew();
+    //playMenu();
   } else if (screenState == 2) {
     helpMenu();
   } else if (screenState == 3) {

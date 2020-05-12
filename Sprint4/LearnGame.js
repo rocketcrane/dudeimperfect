@@ -7,6 +7,27 @@
 class LearnGame extends BasketballGame{
   constructor(canonicalDist) { // the ball mass should be constant
     super(canonicalDist);
+    
+    // CREATE INPUT FIELDS
+    this.forceInput = createInput();
+    this.forceInput.size(100, 50);
+    this.forceInput.style('font-size', '24px');
+    // this.angleInput = createInput();
+    // this.angleInput.size(100, 50);
+    // this.angleInput.style('font-size', '24px');
+
+    // CREATE BUTTONS
+    this.enter = createButton('Enter');
+    this.enter.mousePressed(this.newAttempt);
+  }
+  
+  updateSpecificInput(){
+    this.forceInput.position(width*5/32, height*3/13);
+    this.forceInput.size(width/12, width/32);
+    //this.angleInput.position(width/12, this.forceInput.y + this.forceInput.height + height/16);
+    //this.angleInput.size(width/12, width/32);
+    this.enter.position(width*2/5, height/8);
+    this.enter.size(width/12, width/18);
   }
   
   proceed() {
