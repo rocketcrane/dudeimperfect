@@ -14,7 +14,7 @@ let forceSlider, angleSlider;
 /*
  *  GAME STUFF
  */
-const DEBUG = false;
+const DEBUG = true;
 
 let balls = [], walls = [], goal;
 let iterations = 10;
@@ -69,7 +69,7 @@ function setup() {
   resizeImgs();
   updateScale();
   
-  forceSlider = new Slider(width/2 - width/14, height/4, width/7, 0, 200, 5, false, false, false);
+  forceSlider = new Slider(width/2 - width/14, height/4, width/7, 0, 20, 1, false, false, false);
   //angleSlider = new Slider(width/2 - width/14, height/4, width/7, -90, 90, 10, false, false, false);
 }
 
@@ -89,11 +89,13 @@ function draw() {
     
     textSize(20);
     text("Force (N)", width/2, height*5/16);
+    strokeWeight(2);
     forceSlider.move();
     forceSlider.display();
     //text("Angle (°)", width/2, height*31/32);
     //angleSlider.move();
     //angleSlider.display();
+    strokeWeight(0);
     if (DEBUG) {
       debug();
     }

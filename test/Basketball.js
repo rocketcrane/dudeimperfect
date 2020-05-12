@@ -1,9 +1,9 @@
 function Basketball(x, y, force, angle) {
   this.pos = createVector(x, y);
-  force /= 100; //what??
+  force /= 10; //what??
   this.vel = createVector(cos(angle)*force, -sin(angle)*force); 
   this.acc = createVector(0, 0);
-  this.rad = 25;
+  this.rad = 23;
   this.mass = 10; //yeah?
   this.isGrounded = false;
   this.angle = 0;

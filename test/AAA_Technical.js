@@ -70,7 +70,7 @@ function newBasketballGame(lvl) {
     lives = 5;
     break;
   case 4:
-    percentDist = 30/backgroundLength;
+    percentDist = 25/backgroundLength;
     //distance = width/5;
     lives = 5;
     break;

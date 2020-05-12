@@ -18,27 +18,28 @@ function bbVisuals() {
   drawVerticalDist(hooploc + width/20, floor, floor - rimHeight);
   drawVerticalDist(roboloc - width/20, floor, floor - playerHeight);
   drawHorizontalDist(floor, roboloc, hooploc);
-  switch(level) {
-    case 1:
-      image(bbLvl1, width/2, height/4);
-      
-      break;
-    case 2:
-      image(bbLvl2, width/2, height/4);
-      break;
-    case 3:
-      image(bbLvl3, width/2, height/4);
-      break;
-    case 4:
-      image(bbLvl4, width/2, height/4);
-      break;
-  }
-  for (let i = 0; i < lives; i++) {
-      image(imgBB, width*3/8 + i*width*1/50, height*6/16);
-    }
   if (win) {
     canFire = false;
     image(bbBgWin, width/2, height/4);
     image(star1, width/2, height*3/8);
+  }else{
+    switch(level) {
+      case 1:
+        image(bbLvl1, width/2, height/4);
+        break;
+      case 2:
+        image(bbLvl2, width/2, height/4);
+        break;
+      case 3:
+        image(bbLvl3, width/2, height/4);
+        break;
+      case 4:
+        image(bbLvl4, width/2, height/4);
+        break;
+    }
   }
+  for (let i = 0; i < lives; i++) {
+      image(imgBB, width*3/8 + i*width*1/50, height*6/16);
+    }
+  
 }
